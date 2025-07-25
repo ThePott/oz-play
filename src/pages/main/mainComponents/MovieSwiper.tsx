@@ -1,7 +1,7 @@
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import { Box, IconButton } from '@mui/material';
-import { useRef } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
+import React, { useRef, useState } from 'react';
 import { Swiper as SwiperType } from "swiper";
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,14 +11,10 @@ import MovieCardBig from './MovieCardBig';
 import "./customSwiper.css";
 
 const sxBase = {
-  position: "absolute",
-  zIndex: 10,
-  top: "50%",
-  transform: "translateY(-50%)",
   color: "oklch(1 0 0)",
 }
 
-const PrevButton = ({ swiperRef }: { swiperRef: React.RefObject<SwiperType | null> }) => {
+const PrevButton = React.memo(({ swiperRef }: { swiperRef: React.RefObject<SwiperType | null> }) => {
   return (
     <IconButton aria-label="previous"
       sx={{ ...sxBase, left: 0 }}
@@ -28,9 +24,9 @@ const PrevButton = ({ swiperRef }: { swiperRef: React.RefObject<SwiperType | nul
 
     </IconButton>
   );
-};
+})
 
-const NextButton = ({ swiperRef }: { swiperRef: React.RefObject<SwiperType | null> }) => {
+const NextButton = React.memo(({ swiperRef }: { swiperRef: React.RefObject<SwiperType | null> }) => {
   return (
     <IconButton aria-label="previous"
       sx={{ ...sxBase, right: 0 }}
@@ -40,13 +36,25 @@ const NextButton = ({ swiperRef }: { swiperRef: React.RefObject<SwiperType | nul
 
     </IconButton>
   );
-};
+})
 
-const MovieSwiper = ({ movieCardInfoArray }: { movieCardInfoArray: MovieCardInfo[] }) => {
+const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swiperRef }: { activeIndex: number, movieCardInfoArray: MovieCardInfo[], swiperRef: React.RefObject<SwiperType | null> }) => {
+  const paginationText = `${activeIndex + 1} / ${movieCardInfoArray.length}`
+  return (
+    <Box className="flex gap-3 items-center mt-3">
+      <PrevButton swiperRef={swiperRef} />
+      <Typography sx={{fontSize: "20px"}} className="text-white">{paginationText}</Typography>
+      <NextButton swiperRef={swiperRef} />
+    </Box>
+  )
+})
+
+const MovieSwiper = React.memo(({ movieCardInfoArray }: { movieCardInfoArray: MovieCardInfo[] }) => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0)
 
   return (
-    <Box className='relative py-12'>
+    <Box className='relative'>
       <Swiper
         modules={[Navigation]}
         centeredSlides
@@ -54,7 +62,8 @@ const MovieSwiper = ({ movieCardInfoArray }: { movieCardInfoArray: MovieCardInfo
         spaceBetween={100}
         centerInsufficientSlides
         pagination={{ clickable: true }}
-        onSwiper={(swiper: any) => { swiperRef.current = swiper }}>
+        onSwiper={(swiper: SwiperType) => { swiperRef.current = swiper }}
+        onSlideChange={(swiper: SwiperType) => { setActiveIndex(swiper.activeIndex) }}>
 
         {movieCardInfoArray.map((movieCardInfo, index) => (
           <SwiperSlide>
@@ -63,11 +72,9 @@ const MovieSwiper = ({ movieCardInfoArray }: { movieCardInfoArray: MovieCardInfo
         ))}
 
       </Swiper>
-
-      <PrevButton swiperRef={swiperRef} />
-      <NextButton swiperRef={swiperRef} />
+      <MovieSwiperPagination activeIndex={activeIndex} movieCardInfoArray={movieCardInfoArray} swiperRef={swiperRef} />
     </Box>
   );
-};
+})
 
 export default MovieSwiper

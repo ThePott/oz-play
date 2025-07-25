@@ -7,14 +7,11 @@ import { Box, Button, Typography } from '@mui/material'
 
 const GenreChip = ({ id, name }: { id: number, name: string }) => {
   return (
-    <Button sx={{fontWeight: 600, color: "oklch(0.9 0 0)", borderColor: "oklch(0.6 0 0)"}} variant='outlined' className="p-3 bg-zinc-800 shrink-0">{name}</Button>
+    <Button sx={{ fontWeight: 600, color: "oklch(0.9 0 0)", borderColor: "oklch(0.6 0 0)" }} variant='outlined' className="p-3 bg-zinc-800 shrink-0">{name}</Button>
   )
 }
 
 const DetailPage = () => {
-  // const params = useParams()
-  // const movieId = params.movieId
-
   const collectionPosterUrl = `${imageBaseUrl}${movieDetailData["belongs_to_collection"]["poster_path"]}`
   const genreArray = movieDetailData["genres"]
 
@@ -25,7 +22,7 @@ const DetailPage = () => {
 
       <Box className="flex overflow-hidden relative">
         <img src={collectionPosterUrl} className='w-full blur-2xl absolute -z-10 opacity-60' />
-        <img src={collectionPosterUrl} className='mx-auto' />
+        <img src={collectionPosterUrl} style={{objectFit: "contain"}} className='mx-auto h-full' />
       </Box>
 
       <Box className='flex flex-col gap-6 max-w-[750px] w-full'>

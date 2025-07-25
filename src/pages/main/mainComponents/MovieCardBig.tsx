@@ -21,7 +21,6 @@ const MovieCardBig = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
   const [isMouseOver, setIsMouseOver] = useState(false)
 
   return (
-    // scale만 삭제함
     <Link to={`/detail/${movieCardInfo.id}`}
       className={`transition 
         w-[400px] shrink-0

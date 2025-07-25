@@ -16,7 +16,9 @@ const neutralSx = {
 
 const NeutralButton = ({children}: {children: JSX.Element | string}) => {
     return (
-        <Button sx={{color: "oklch(0.9 0 0)", fontWeight: 600}}>{children}</Button>
+        <Button sx={{
+            color: "oklch(0.9 0 0)",
+             fontWeight: 600}}>{children}</Button>
     )
 }
 
