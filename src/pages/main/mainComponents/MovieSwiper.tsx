@@ -1,6 +1,6 @@
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Skeleton, Typography } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Swiper as SwiperType } from "swiper";
 import { Navigation } from 'swiper/modules';
@@ -43,36 +43,43 @@ const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swi
   return (
     <Box className="flex gap-3 items-center mt-3">
       <PrevButton swiperRef={swiperRef} />
-      <Typography sx={{fontSize: "20px"}} className="text-white">{paginationText}</Typography>
+      <Typography sx={{ fontSize: "20px" }} className="text-white">{paginationText}</Typography>
       <NextButton swiperRef={swiperRef} />
     </Box>
   )
 })
 
-const MovieSwiper = React.memo(({ movieCardInfoArray }: { movieCardInfoArray: MovieCardInfo[] }) => {
+const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardInfoArray: MovieCardInfo[], isLoading: boolean }) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
+
+
   return (
-    <Box className='relative'>
-      <Swiper
-        modules={[Navigation]}
-        centeredSlides
-        slidesPerView="auto"
-        spaceBetween={100}
-        centerInsufficientSlides
-        pagination={{ clickable: true }}
-        onSwiper={(swiper: SwiperType) => { swiperRef.current = swiper }}
-        onSlideChange={(swiper: SwiperType) => { setActiveIndex(swiper.activeIndex) }}>
+    <Box>
+      {!isLoading &&
+        <Swiper
+          modules={[Navigation]}
+          centeredSlides
+          slidesPerView="auto"
+          spaceBetween={100}
+          centerInsufficientSlides
+          pagination={{ clickable: true }}
+          onSwiper={(swiper: SwiperType) => { swiperRef.current = swiper }}
+          onSlideChange={(swiper: SwiperType) => { setActiveIndex(swiper.activeIndex) }}>
 
-        {movieCardInfoArray.map((movieCardInfo, index) => (
-          <SwiperSlide>
-            <MovieCardBig key={index} movieCardInfo={movieCardInfo} />
-          </SwiperSlide>
-        ))}
+          {movieCardInfoArray.map((movieCardInfo, index) => (
+            <SwiperSlide>
+              <MovieCardBig key={index} movieCardInfo={movieCardInfo} />
+            </SwiperSlide>
+          ))}
 
-      </Swiper>
-      <MovieSwiperPagination activeIndex={activeIndex} movieCardInfoArray={movieCardInfoArray} swiperRef={swiperRef} />
+        </Swiper>
+      }
+      {isLoading && <Skeleton variant='rectangular' height={600} />}
+
+      {!isLoading && <MovieSwiperPagination activeIndex={activeIndex} movieCardInfoArray={movieCardInfoArray} swiperRef={swiperRef} />}
+      {isLoading && <Skeleton variant='rectangular' sx={{borderRadius: "12px"}} height={44} width={162} />}
     </Box>
   );
 })

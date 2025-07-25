@@ -1,11 +1,20 @@
 import { Box } from "@mui/material"
+import { useMovieGet, useTestGet } from "../../_hooks/hooks"
 import type { MovieCardInfo } from "../../_interfaces/interfaces"
-import movieListData from "../../assets/data/movieListData.json"
-import MovieCard from "./mainComponents/MovieCard"
+import CategoryTitle from "./mainComponents/CategoryTitle"
+import MovieCardGrid from "./mainComponents/MovieCardGrid"
 import MovieSwiper from "./mainComponents/MovieSwiper"
+import useMovieStore from "../../_store/store"
+
 
 const MainPage = () => {
-  const movieCardInfoArray: MovieCardInfo[] = movieListData.results
+  useMovieGet()
+  const testUrl = "https://api.themoviedb.org/3/configuration/languages"
+  useTestGet(testUrl)
+  // const movieCardInfoArray: MovieCardInfo[] = []
+  const movieCardInfoArray: MovieCardInfo[] = useMovieStore((state) => state.movieArray)
+
+  const isLoading = movieCardInfoArray.length === 0
 
   const hotMovieCardInfoArray = [...movieCardInfoArray]
   hotMovieCardInfoArray.sort((a, b) => b.vote_average - a.vote_average)
@@ -14,12 +23,17 @@ const MainPage = () => {
   return (
     <Box sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }}
       className="h-full overflow-scroll">
-      <p className="text-2xl font-semibold  pt-12 pb-6 pl-3">이번 주 인기작TOP 10</p>
-      <MovieSwiper movieCardInfoArray={hotMovieCardInfoArray} />
-      <p className="text-2xl font-semibold pt-12 pb-6 pl-3">오직 오즈 플레이에서만</p>
-      <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
+
+      <CategoryTitle text="이번 주 인기작 TOP 10" isLoading={isLoading} />
+
+      <MovieSwiper movieCardInfoArray={hotMovieCardInfoArray} isLoading={isLoading} />
+
+      <CategoryTitle text="오직 오즈 플레이에서만" isLoading={isLoading} />
+
+      <MovieCardGrid movieCardInfoArray={movieCardInfoArray} isLoading={isLoading} />
+      {/* <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
         {movieCardInfoArray.map((movieCardInfo, index) => <MovieCard key={index} movieCardInfo={movieCardInfo} />)}
-      </Box>
+      </Box> */}
     </Box>
   )
 }
