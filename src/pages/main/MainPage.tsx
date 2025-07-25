@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 import type { MovieCardInfo } from "../../_interfaces/interfaces"
 import movieListData from "../../assets/data/movieListData.json"
 import MovieCard from "./mainComponents/MovieCard"
@@ -7,8 +7,9 @@ import MovieSwiper from "./mainComponents/MovieSwiper"
 const MainPage = () => {
   const movieCardInfoArray: MovieCardInfo[] = movieListData.results
 
-  const hotMovieCardInfoArray = movieCardInfoArray.filter((movieCardInfo) => movieCardInfo.vote_average >= 7)
+  const hotMovieCardInfoArray = [...movieCardInfoArray]
   hotMovieCardInfoArray.sort((a, b) => b.vote_average - a.vote_average)
+  hotMovieCardInfoArray.splice(10)
 
   return (
     <Box sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }}
