@@ -5,20 +5,25 @@ import CategoryTitle from "./mainComponents/CategoryTitle"
 import MovieCardGrid from "./mainComponents/MovieCardGrid"
 import MovieSwiper from "./mainComponents/MovieSwiper"
 import useMovieStore from "../../_store/store"
+import { filterOnlySafe } from "../../_utils/utils"
 
 
 const MainPage = () => {
   useMovieGet()
-  const testUrl = "https://api.themoviedb.org/3/configuration/languages"
-  useTestGet(testUrl)
+  // const testUrl = "https://api.themoviedb.org/3/configuration/languages"
+  // useTestGet(testUrl)
   // const movieCardInfoArray: MovieCardInfo[] = []
   const movieCardInfoArray: MovieCardInfo[] = useMovieStore((state) => state.movieArray)
+  const safeMovieCardInfo = filterOnlySafe(movieCardInfoArray)
 
-  const isLoading = movieCardInfoArray.length === 0
 
-  const hotMovieCardInfoArray = [...movieCardInfoArray]
-  hotMovieCardInfoArray.sort((a, b) => b.vote_average - a.vote_average)
-  hotMovieCardInfoArray.splice(10)
+  const isLoading = safeMovieCardInfo.length === 0
+
+
+  const hotMovieCardInfoArray = [...safeMovieCardInfo]
+    .filter((movieCardInfo) => movieCardInfo.vote_count > 100)
+    .sort((a, b) => b.vote_average - a.vote_average)
+    .slice(0, 10)
 
   return (
     <Box sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }}
@@ -30,7 +35,7 @@ const MainPage = () => {
 
       <CategoryTitle text="오직 오즈 플레이에서만" isLoading={isLoading} />
 
-      <MovieCardGrid movieCardInfoArray={movieCardInfoArray} isLoading={isLoading} />
+      <MovieCardGrid movieCardInfoArray={safeMovieCardInfo} isLoading={isLoading} />
       {/* <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
         {movieCardInfoArray.map((movieCardInfo, index) => <MovieCard key={index} movieCardInfo={movieCardInfo} />)}
       </Box> */}
