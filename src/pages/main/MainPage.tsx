@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Skeleton } from "@mui/material"
 import { useMovieGet, useTestGet } from "../../_hooks/hooks"
 import type { MovieCardInfo } from "../../_interfaces/interfaces"
 import CategoryTitle from "./mainComponents/CategoryTitle"
@@ -10,8 +10,8 @@ import { filterOnlySafe } from "../../_utils/utils"
 
 const MainPage = () => {
   useMovieGet()
-  // const testUrl = "https://api.themoviedb.org/3/configuration/languages"
-  // useTestGet(testUrl)
+  const testUrl = "https://api.themoviedb.org/3/certification/movie/list"
+  useTestGet(testUrl)
   // const movieCardInfoArray: MovieCardInfo[] = []
   const movieCardInfoArray: MovieCardInfo[] = useMovieStore((state) => state.movieArray)
   const safeMovieCardInfo = filterOnlySafe(movieCardInfoArray)
@@ -36,9 +36,6 @@ const MainPage = () => {
       <CategoryTitle text="오직 오즈 플레이에서만" isLoading={isLoading} />
 
       <MovieCardGrid movieCardInfoArray={safeMovieCardInfo} isLoading={isLoading} />
-      {/* <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
-        {movieCardInfoArray.map((movieCardInfo, index) => <MovieCard key={index} movieCardInfo={movieCardInfo} />)}
-      </Box> */}
     </Box>
   )
 }

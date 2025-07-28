@@ -14,7 +14,7 @@ const MovieCardGrid = ({ movieCardInfoArray, isLoading }: { movieCardInfoArray: 
 
   return (
     <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
-      {movieCardInfoArray.map((movieCardInfo, index) => <MovieCard key={index} movieCardInfo={movieCardInfo} />)}
+      {movieCardInfoArray.map((movieCardInfo, index) => <MovieCard key={index} movieCardInfo={movieCardInfo} variant='NORMAL' />)}
     </Box>
   )
 }

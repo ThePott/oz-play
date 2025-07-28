@@ -7,8 +7,8 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import type { MovieCardInfo } from '../../../_interfaces/interfaces';
-import MovieCardBig from './MovieCardBig';
 import "./customSwiper.css";
+import MovieCard from './MovieCard';
 
 const sxBase = {
   color: "oklch(1 0 0)",
@@ -70,7 +70,7 @@ const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardIn
 
           {movieCardInfoArray.map((movieCardInfo, index) => (
             <SwiperSlide>
-              <MovieCardBig key={index} movieCardInfo={movieCardInfo} />
+              <MovieCard key={index} variant='BIG'  movieCardInfo={movieCardInfo} />
             </SwiperSlide>
           ))}
 
@@ -79,7 +79,7 @@ const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardIn
       {isLoading && <Skeleton variant='rectangular' height={600} />}
 
       {!isLoading && <MovieSwiperPagination activeIndex={activeIndex} movieCardInfoArray={movieCardInfoArray} swiperRef={swiperRef} />}
-      {isLoading && <Skeleton variant='rectangular' sx={{borderRadius: "12px"}} height={44} width={162} />}
+      {isLoading && <Skeleton variant='rectangular' sx={{borderRadius: "12px"}} height={44} width={162} className="mt-3" />}
     </Box>
   );
 })

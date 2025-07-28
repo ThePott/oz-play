@@ -16,13 +16,18 @@ const VoteText = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
   )
 }
 
-const MovieCard = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
+const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: MovieCardInfo, variant: "NORMAL" | "BIG" }) => {
   const posterSrc = `${imageBaseUrl}${movieCardInfo.poster_path}`
   const [isMouseOver, setIsMouseOver] = useState(false)
 
+  const linkBaseStyle = `transition overflow-hidden bg-zinc-800 flex flex-col items-start relative rounded-xl`
+  const linkNormalStyle = `min-w-[200px] h-[300px] ${isMouseOver && "scale-110 z-10 -translate-y-[15px]"}`
+  const linkBigStyle = `w-[400px] shrink-0 h-[600px]`
+  const linkVariantStyle = `${linkBaseStyle} ${variant === "NORMAL" ? linkNormalStyle : linkBigStyle}`
+
   return (
     <Link to={`/detail/${movieCardInfo.id}`}
-      className={`min-w-[200px] transition ${isMouseOver && "scale-110 z-10 -translate-y-[15px]"} h-[300px] overflow-hidden bg-zinc-800 flex flex-col items-start relative rounded-xl`}
+      className={linkVariantStyle}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}>
 

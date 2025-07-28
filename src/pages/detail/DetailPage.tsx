@@ -34,7 +34,7 @@ const DetailPage = () => {
   const voteAverage = Math.round(selectedMovie["vote_average"] * 10) / 10
   const voteInfo = `⭐️ ${voteAverage}(${selectedMovie["vote_count"]})`
   return (
-    <Box className="grid grid-cols-2 gap-12 flex-1 h-full overflow-hidden">
+    <Box className="grid grid-cols-2 gap-12 flex-1 h-full overflow-hidden px-3">
 
       <Box className="flex overflow-hidden relative">
         <img src={posterUrl} className='w-full blur-2xl absolute -z-10 opacity-60' />
