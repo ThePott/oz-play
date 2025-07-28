@@ -41,7 +41,6 @@ export const getMovieALot = async (pageLength: number, setMovieArray: (movieArra
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko&append_to_response=credits,release_dates`
-    // const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko`
     const response = await axiosMovie.get(
         url,
         { headers: { Authorization: `Bearer ${apiReadAccessToken}` } }
@@ -50,7 +49,3 @@ export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovi
     const movieDetailData = response.data
     setSelectedMovie(movieDetailData)
 }
-
-// export const searchMovie = async (searchText: string, setSearchedMovieArray: (searchedMovieArray: any) => void) => {
-//     const url = `https://api.themoviedb.org/3/search/movie?query=school&include_adult=false&language=ko&page=1`
-// }
