@@ -10,8 +10,8 @@ import { filterOnlySafe } from "../../_utils/utils"
 
 const MainPage = () => {
   useMovieGet()
-  const testUrl = "https://api.themoviedb.org/3/certification/movie/list"
-  useTestGet(testUrl)
+  // const testUrl = "https://api.themoviedb.org/3/search/movie?query=마인크래프트&include_adult=false&language=ko&page=1"
+  // useTestGet(testUrl)
   // const movieCardInfoArray: MovieCardInfo[] = []
   const movieCardInfoArray: MovieCardInfo[] = useMovieStore((state) => state.movieArray)
   const safeMovieCardInfo = filterOnlySafe(movieCardInfoArray)

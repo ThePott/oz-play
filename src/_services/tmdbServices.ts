@@ -6,7 +6,7 @@ const getJsonPromise = async (url: string, targetArray: string[]) => {
         url,
         { headers: { Authorization: `Bearer ${apiReadAccessToken}` } }
     )
-
+    // debugger
     const json = response.data
 
     if (targetArray.length === 0) { return json }
@@ -16,9 +16,12 @@ const getJsonPromise = async (url: string, targetArray: string[]) => {
 }
 
 const makePagedUrl = (page: number, query: string) => {
+    if (!query) {
+        return `https://api.themoviedb.org/3/discover/movie?include_adult=false&certification.lte=19&certification_country=KR&&language=ko&sort_by=popularity&page=${page}.desc`
+    }
+
     const trimmedQuery = query.trim()
-    const queryPart = trimmedQuery ? `query=${trimmedQuery}` : ""
-    return `https://api.themoviedb.org/3/discover/${queryPart}movie?include_adult=false&certification.lte=19&certification_country=KR&&language=ko&sort_by=popularity&page=${page}.desc`
+    return `https://api.themoviedb.org/3/search/movie?query=${trimmedQuery}&include_adult=false&language=ko&page=1`
 }
 
 export const getMovieALot = async (pageLength: number, setMovieArray: (movieArray: any) => void, query: string) => {

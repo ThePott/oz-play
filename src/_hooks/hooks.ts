@@ -13,7 +13,7 @@ const getResponse = async (url: string) => {
             { headers: { Authorization: `Bearer ${apiReadAccessToken}` } }
         )
 
-        console.log("test response", response.data.certifications.KR)
+        console.log("test response", response.data)
 
     } catch (error) {
         console.error("---- ERROR OCCURRED:", error)
@@ -26,13 +26,13 @@ export const useTestGet = (url: string) => {
 
 export const useMovieGet = () => {
     const setMovieArray = useMovieStore((state) => state.setMovieArray)
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, _setSearchParams] = useSearchParams()
     const query = searchParams.get("title") ?? ""
     useEffect(
         () => {
-            getMovieALot(5, setMovieArray, query)
+            getMovieALot(1, setMovieArray, query)
         },
-        []
+        [searchParams]
     )
 }
 
