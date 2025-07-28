@@ -6,10 +6,11 @@ import useMovieStore from "../../_store/store"
 import { useEffect } from 'react'
 import YoutubeBox from './detailComponents/YoutubeBox'
 import MovieCardGrid from '../main/mainComponents/MovieCardGrid'
+import { colorStyle } from '../../_constants/colorConstants'
 
 const GenreChip = ({ id, name }: { id: number, name: string }) => {
   return (
-    <Button sx={{ fontWeight: 600, color: "oklch(0.9 0 0)", borderColor: "oklch(0.6 0 0)" }} variant='outlined' className="p-3 bg-zinc-800 shrink-0">{name}</Button>
+    <Button variant='outlined' className={`p-3 ${colorStyle.fontVivid} ${colorStyle.borderVivid}`}>{name}</Button>
   )
 }
 

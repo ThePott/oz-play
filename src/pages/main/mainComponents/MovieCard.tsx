@@ -3,6 +3,7 @@ import { imageBaseUrl } from '../../../_constants/constants'
 import { Link } from 'react-router'
 import { Box, Typography } from '@mui/material'
 import { useState } from 'react'
+import { colorStyle } from '../../../_constants/colorConstants'
 
 const VoteText = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
   const voteAverage = Math.round(movieCardInfo["vote_average"] * 10) / 10
@@ -33,7 +34,7 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: MovieCardInfo, v
 
       <img src={posterSrc} alt={`${movieCardInfo.title}__poster`} className={`transition ${isMouseOver && "scale-105"} duration-500`} />
 
-      <Box className={`transition absolute bottom-0 bg-zinc-800 ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>
+      <Box className={`transition absolute bottom-0 ${colorStyle.bgFront} ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>
         <Typography sx={{
           textWrap: isMouseOver ? undefined : "nowrap",
           wordBreak: "keep-all",
