@@ -1,7 +1,6 @@
 # 할 것
-1. 내브바 -> 시간 지연, blur, enter -> set search params
-2. search params 달라지는 거 감지하면 영화 목록 다시 불러옴
-3. 있으면: 검색 페이지 없으면: 추천 페이지 <--- 나누기
+detail 1024이상이면
+grid 3, (2,1)
 
 # 희망사항
 이번주 인기작 20 -> popular 2 페이지

@@ -4,6 +4,8 @@ import { useSelectedMovieGet } from "../../_hooks/hooks"
 import { useParams } from "react-router"
 import useMovieStore from "../../_store/store"
 import { useEffect } from 'react'
+import YoutubeBox from './detailComponents/YoutubeBox'
+import MovieCardGrid from '../main/mainComponents/MovieCardGrid'
 
 const GenreChip = ({ id, name }: { id: number, name: string }) => {
   return (
@@ -29,27 +31,37 @@ const DetailPage = () => {
   console.log("---- selected movie:", selectedMovie)
 
   const posterUrl = `${imageBaseUrl}${selectedMovie.poster_path}`
+  const youtubeKey = selectedMovie.videos.results[0].key
   const genreArray = selectedMovie["genres"]
+  const recommendationArray = selectedMovie.recommendations.results
 
   const voteAverage = Math.round(selectedMovie["vote_average"] * 10) / 10
   const voteInfo = `⭐️ ${voteAverage}(${selectedMovie["vote_count"]})`
   return (
-    <Box className="grid grid-cols-2 gap-12 flex-1 h-full overflow-hidden px-3">
+    <Box className="flex flex-col md:grid grid-cols-3 gap-12 flex-1 h-full overflow-scroll px-3">
 
-      <Box className="flex overflow-hidden relative">
-        <img src={posterUrl} className='w-full blur-2xl absolute -z-10 opacity-60' />
-        <img src={posterUrl} style={{objectFit: "contain"}} className='mx-auto h-full' />
-      </Box>
+      <Box className="col-span-2 flex flex-col gap-6">
+        <YoutubeBox youtubeKey={youtubeKey} />
 
-      <Box className='flex flex-col gap-6 max-w-[750px] w-full'>
+        {/* <Box className='flex flex-col gap-6 max-w-[750px] w-full'> */}
+        <p className="text-5xl font-semibold">{selectedMovie["title"]}</p>
         <Box>
-          <Typography sx={{ fontSize: "48px", fontWeight: 600 }}>{selectedMovie["title"]}</Typography>
-          <Typography>{voteInfo}</Typography>
+          <p className="text-2xl mb-2">{selectedMovie.tagline}</p>
+          <p>{voteInfo}</p>
         </Box>
+
         <Box className="flex gap-3 flex-wrap w-full">
           {genreArray.map((genre: any, index: number) => <GenreChip key={index} {...genre} />)}
         </Box>
         <Typography>{selectedMovie["overview"]}</Typography>
+      </Box>
+
+      {/* </Box> */}
+
+      <Box className='flex flex-col gap-6 max-w-[750px] w-full'>
+        <Box>
+          <MovieCardGrid movieCardInfoArray={recommendationArray} isLoading={false} />
+        </Box>
       </Box>
 
     </Box>

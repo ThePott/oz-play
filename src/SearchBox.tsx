@@ -16,18 +16,19 @@ const SearchBox = ({ text, onChange, onBlur, onKeyDown }: SearchBoxProps) => {
 
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
-  const containerBaseStyle = `flex p-3 transition border-1 outline-0 rounded-xl`
+  const containerBaseStyle = `flex p-3 transition border-1 outline-0 rounded-xl justify-self-end`
   const containerFocuseStyle = isFocused ? "border-zinc-400" : "border-zinc-600"
   const containerStyle = `${containerBaseStyle} ${containerFocuseStyle}`
 
-  const inputBaseStyle = `transition border-0 outline-0 rounded-xl`
+  const inputBaseStyle = `transition border-0 outline-0 rounded-xl `
   const inputFocusStyle = `${isFocused || text ? "w-[300px]" : "w-0"}`
   const inputStyle = `${inputBaseStyle} ${inputFocusStyle}`
 
-  const handleIconClick = () => {
+  const handleIconClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (text) { return }
-    console.log("---- clicked", text)
-    setIsFocused((prev) => !prev)
+    
+    event.stopPropagation()
+    setIsFocused((prev) => !prev)  
   }
 
   return (

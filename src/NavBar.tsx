@@ -49,8 +49,8 @@ const Navbar = React.memo(() => {
 
     return (
         <Box className="flex items-center gap-6 p-3 h-[72px] fixed top-0 bg-zinc-900 z-10 w-full">
-            <Link to="/" className="text-2xl font-semibold">oz play</Link>
-            <Box className="flex gap-3 grow">
+            <Link to="/" className="text-2xl font-semibold shrink-0">oz play</Link>
+            <Box className="gap-3 hidden md:flex grow">
                 {menuItemArray.map((menuItem, index) => <Button sx={{ color: "oklch(0.9 0 0)", fontWeight: 600 }} key={index} >{menuItem}</Button>)}
             </Box>
             <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
