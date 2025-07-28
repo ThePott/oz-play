@@ -7,6 +7,9 @@ interface MovieState {
     setMovieArray: (movieArray: any) => void
     selectedMovie: any
     setSelectedMovie: (selectedMovie: any) => void
+
+    searchedMovieArray: any
+    setSearchedMovieArray: (searchText: string) => void
 }
 
 const useMovieStore = create<MovieState>()((set) => ({
@@ -14,8 +17,11 @@ const useMovieStore = create<MovieState>()((set) => ({
     setMovieArray(movieArray) { set({ movieArray }) },
     selectedMovie: null,
     setSelectedMovie(selectedMovie) {
-        set({selectedMovie})
+        set({ selectedMovie })
     },
+
+    searchedMovieArray: null,
+    setSearchedMovieArray(searchedMovieArray) { set({ searchedMovieArray }) },
 }))
 
 export default useMovieStore

@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import useMovieStore from "../_store/store"
 import { getDetail, getMovieALot } from "../_services/tmdbServices"
+import { useSearchParams } from "react-router"
 
 const apiReadAccessToken = import.meta.env.VITE_API_READ_ACCESS_TOKEN
 
@@ -25,9 +26,11 @@ export const useTestGet = (url: string) => {
 
 export const useMovieGet = () => {
     const setMovieArray = useMovieStore((state) => state.setMovieArray)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const query = searchParams.get("title") ?? ""
     useEffect(
         () => {
-            getMovieALot(5, setMovieArray)
+            getMovieALot(5, setMovieArray, query)
         },
         []
     )

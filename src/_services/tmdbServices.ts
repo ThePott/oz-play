@@ -15,12 +15,16 @@ const getJsonPromise = async (url: string, targetArray: string[]) => {
     return returningJson
 }
 
-const makePagedUrl = (page: number) => `https://api.themoviedb.org/3/discover/movie?include_adult=false&certification.lte=19&certification_country=KR&&language=ko&sort_by=popularity&page=${page}.desc`
+const makePagedUrl = (page: number, query: string) => {
+    const trimmedQuery = query.trim()
+    const queryPart = trimmedQuery ? `query=${trimmedQuery}` : ""
+    return `https://api.themoviedb.org/3/discover/${queryPart}movie?include_adult=false&certification.lte=19&certification_country=KR&&language=ko&sort_by=popularity&page=${page}.desc`
+}
 
-export const getMovieALot = async (pageLength: number, setMovieArray: (movieArray: any) => void) => {
+export const getMovieALot = async (pageLength: number, setMovieArray: (movieArray: any) => void, query: string) => {
     const dummyArray = [...Array(pageLength).keys()]
     const promiseArray = dummyArray.reduce((acc: Promise<any>[], index) => {
-        const url = makePagedUrl(index + 1)
+        const url = makePagedUrl(index + 1, query)
         const json = getJsonPromise(url, ["results"])
 
         return [...acc, json]
@@ -43,3 +47,7 @@ export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovi
     const movieDetailData = response.data
     setSelectedMovie(movieDetailData)
 }
+
+// export const searchMovie = async (searchText: string, setSearchedMovieArray: (searchedMovieArray: any) => void) => {
+//     const url = `https://api.themoviedb.org/3/search/movie?query=school&include_adult=false&language=ko&page=1`
+// }

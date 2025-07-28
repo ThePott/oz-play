@@ -1,4 +1,10 @@
 # 할 것
+1. navbar 만들기
+2. 호출해서 응답 받기
+3. 응답 띄우기
+
+
+# 희망사항
 이번주 인기작 20 -> popular 2 페이지
 새로 올라온 컨텐츠 -> https://developer.themoviedb.org/reference/movie-latest-id
 
