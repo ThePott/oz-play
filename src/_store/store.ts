@@ -33,6 +33,9 @@ interface MovieState {
 
     user: any | null
     setUser: (user: any | null) => void
+
+    googleCredentialResponse: any | null
+    setGoogleCredentialResponse: (googleCredentialResponse: any | null) => void
 }
 
 const useMovieStore = create<MovieState>()(
@@ -74,10 +77,13 @@ const useMovieStore = create<MovieState>()(
 
             user: null,
             setUser(user) { set({ user }) },
+
+            googleCredentialResponse: null,
+            setGoogleCredentialResponse(googleCredentialResponse) { set({ googleCredentialResponse }) },
         }),
         {
             name: 'oz-movie-app-user',
-            partialize: (state) => ({ user: state.user }),
+            partialize: (state) => ({ user: state.user, googleCredentialResponse: state.googleCredentialResponse }),
         }
     )
 )

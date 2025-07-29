@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js"
 const projectUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL
 const apiKey = import.meta.env.VITE_SUPABASE_API_KEY
 
-const supabase = createClient(projectUrl, apiKey)
+export const supabase = createClient(projectUrl, apiKey)
 
 export const signUp = async (name: string, email: string, password: string, setUser: (user: any | null) => void) => {
     const { data, error } = await supabase.auth.signUp({

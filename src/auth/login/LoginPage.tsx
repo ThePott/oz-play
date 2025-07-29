@@ -3,6 +3,7 @@ import { signInWithEmail } from "../../_database/supabase"
 import { useNavigate } from "react-router"
 import useMovieStore from "../../_store/store"
 import { useEffect } from "react"
+import GoogleLoginButton from "../../components/GoogleLoginButton"
 
 const LoginPage = () => {
   const setUser = useMovieStore((state) => state.setUser)
@@ -29,11 +30,14 @@ const LoginPage = () => {
   }
 
   return (
-    <Box component="form" className="flex flex-col gap-3" onSubmit={handleSubmit}>
+    <Box component="form" className="flex flex-col gap-3 max-w-[400px] w-full mx-auto" onSubmit={handleSubmit}>
       <TextField type="text" label="이메일" id="email" name="email" />
       <TextField type="password" label="비밀번호" id="password" name="password" />
       <Button type="submit">로그인</Button>
       <Button onClick={() => navigate("/signup")}>회원가입</Button>
+      <Box className="w-fit self-center">
+        <GoogleLoginButton />
+      </Box>
     </Box>
   )
 }

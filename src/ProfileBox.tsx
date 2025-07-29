@@ -13,9 +13,13 @@ const ProfileBox = () => {
 
   const user = useMovieStore((state) => state.user)
   const setUser = useMovieStore((state) => state.setUser)
+  const googleCredentialResponse = useMovieStore((state) => state.googleCredentialResponse)
+  const setGoogleCredentialResponse = useMovieStore((state) => state.setGoogleCredentialResponse)
+
+  const isLoggedIn = user || googleCredentialResponse
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!user) {
+    if (!isLoggedIn) {
       navigate("/login")
       return
     }
@@ -27,27 +31,31 @@ const ProfileBox = () => {
   const handleLogoutClick = () => {
     setAnchorEl(null)
     user && signOut(setUser)
+    googleCredentialResponse && setGoogleCredentialResponse(null)
   }
 
+
+
   const profileBaseStyle = "transition w-[54px] h-[54px] rounded-full flex justify-center items-center"
-  const profileUserStyle = user ? "bg-blue-400" : "border-3 border-blue-400 opacity-60 hover:opacity-100"
-  const profileStyle = `${profileBaseStyle} ${profileUserStyle}`
+  const profileLoggedInStyle = isLoggedIn ? "bg-blue-400" : "border-3 border-blue-400 opacity-60 hover:opacity-100"
+  const profileStyle = `${profileBaseStyle} ${profileLoggedInStyle}`
+
 
   return (
     <>
       <Box className={profileStyle} onClick={handleClick}>
-        {user && <FaceIcon className="text-white" fontSize='large' />}
+        {isLoggedIn && <FaceIcon className="text-white" fontSize='large' />}
       </Box>
 
-      {user &&
+      {isLoggedIn &&
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}>
           <MenuItem onClick={handleLogoutClick} className="gap-3">
-              <LogoutRoundedIcon fontSize="large" />
-              <p className="text-xl">Logout</p>
+            <LogoutRoundedIcon fontSize="large" />
+            <p className="text-xl">Logout</p>
           </MenuItem>
         </Menu>
       }
