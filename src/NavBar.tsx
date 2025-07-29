@@ -44,7 +44,6 @@ const Navbar = React.memo(() => {
                     <Switch checked={!isDark} onChange={handleToggle} />
                 </span>
             </Box>
-            <Box className="grow" />
             <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
         </Box>
     )

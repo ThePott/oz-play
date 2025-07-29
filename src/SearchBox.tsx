@@ -1,8 +1,8 @@
 import { Box } from '@mui/material'
 import React, { useState } from 'react'
-import MagnifyingGlassIcon from './components/MagnifyingGlassIcon'
 import { useSearchParams } from 'react-router'
 import { colorStyle } from './_constants/colorConstants'
+import MagnifyingGlassIcon from './components/MagnifyingGlassIcon'
 
 interface SearchBoxProps {
   text: string
@@ -13,12 +13,12 @@ interface SearchBoxProps {
 
 const SearchBox = ({ text, onChange, onBlur, onKeyDown }: SearchBoxProps) => {
   const [searchParams, _setSearchParams] = useSearchParams()
-
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   const containerBaseStyle = `ml-auto flex transition border-1 outline-0 rounded-xl absolute right-3 ${colorStyle.bgBack}`
-  const containerFocuseStyle = isFocused ? `${colorStyle.borderVivid} max-w-[300px] w-full` : `${colorStyle.borderMuted} w-fit`
-  const containerStyle = `${containerBaseStyle} ${containerFocuseStyle}`
+  const containerTextStyle = text ? "max-w-[300px] w-full" : ""
+  const containerFocuseStyle = isFocused ? colorStyle.borderVivid : colorStyle.borderMuted
+  const containerStyle = `${containerBaseStyle} ${containerTextStyle} ${containerFocuseStyle}`
 
   const inputBaseStyle = `transition border-0 outline-0`
   const inputFocusStyle = `${isFocused || text ? "grow p-3 pr-0" : "w-0"}`
@@ -33,7 +33,8 @@ const SearchBox = ({ text, onChange, onBlur, onKeyDown }: SearchBoxProps) => {
 
   return (
     <Box className={containerStyle}>
-      <input type="text"
+      <input
+        type="text"
         defaultValue={searchParams.get("title") ?? ""}
         onChange={onChange}
         onBlur={(event) => {
