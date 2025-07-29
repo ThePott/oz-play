@@ -1,6 +1,18 @@
 import { create } from "zustand"
 
+// ------------------------- 구조 어떻게 유연하게 만들지 고민해봐야 -----------------------
+interface MovieArrayDict {
+    trendingMovieArray: []
 
+    nowPlayingMovieArray: []
+    upComingMovieArray: []
+    topRatedMovieArray: []
+    trendingTvArray: []
+
+
+
+    movieArray: []
+}
 
 interface MovieState {
     movieArray: any
@@ -14,6 +26,9 @@ interface MovieState {
     isDark: boolean
     initializeIsDark: () => void
     toggleIsDark: () => void
+
+    movieArrayDict: any
+    updateArrayFromDict: (key: string, movieArray: any) => void
 }
 
 const useMovieStore = create<MovieState>()((set) => ({
@@ -43,6 +58,14 @@ const useMovieStore = create<MovieState>()((set) => ({
             return { isDark: !state.isDark }
         })
     },
+
+    movieArrayDict: {},
+    updateArrayFromDict(key, movieArray) {
+        set((state) => {
+            return {movieArrayDict: {...state.movieArrayDict, [key]: movieArray}}
+        })
+    },
+
 }))
 
 export default useMovieStore
