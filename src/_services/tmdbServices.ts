@@ -16,7 +16,7 @@ const getJsonPromise = async (url: string, targetArray: string[]) => {
 
 const makePagedUrl = (page: number, query: string) => {
     if (!query) {
-        return `https://api.themoviedb.org/3/discover/movie?include_adult=false&certification.lte=19&certification_country=KR&&language=ko&sort_by=popularity&page=${page}.desc`
+        return `https://api.themoviedb.org/3/discover/movie?include_adult=false&certification.lte=19&certification_country=KR&language=ko&sort_by=popularity&page=${page}.desc`
     }
 
     const trimmedQuery = query.trim()

@@ -1,4 +1,3 @@
-import { ThemeProvider } from '@emotion/react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import './index.css'
@@ -6,7 +5,6 @@ import Layout from './Layout.tsx'
 import DetailPage from './pages/detail/DetailPage.tsx'
 import MainPage from './pages/main/MainPage.tsx'
 import TestPage from './pages/test/TestPage.tsx'
-import theme from './theme.ts'
 
 const router = createBrowserRouter([
   {

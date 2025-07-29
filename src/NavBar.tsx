@@ -1,20 +1,19 @@
 import { Box, Button, Switch } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { Link, useSearchParams } from "react-router"
 import SearchBox from "./SearchBox"
-import { useDarkMode, useSearchText } from "./_hooks/hooks"
-import { isSystemDark } from "./_utils/utils"
 import { colorStyle } from "./_constants/colorConstants"
-// import LightDarkSwitch from "./LightDarkSwitch"
+import { useSearchText } from "./_hooks/hooks"
+import useMovieStore from "./_store/store"
+import { isSystemDark } from "./_utils/utils"
 
 const menuItemArray = ["TV", "영화", "스포츠", "키즈", "라이브"]
 
 
 const Navbar = React.memo(() => {
-    // const { mode, setMode } = useColorScheme()
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [_searchParams, setSearchParams] = useSearchParams()
     const { text, setText, timeoutId } = useSearchText()
-    const { toggleDarkMode } = useDarkMode()
+    const toggleIsDark = useMovieStore((state) => state.toggleIsDark)
 
     useEffect(
         () => {
@@ -42,7 +41,7 @@ const Navbar = React.memo(() => {
         value ? setSearchParams({ title: value }) : setSearchParams({})
     }
 
-    const handleToggle = () => toggleDarkMode()
+    const handleToggle = () => toggleIsDark()
 
 
     return (
@@ -51,7 +50,6 @@ const Navbar = React.memo(() => {
             <Box className="gap-3 hidden md:flex grow">
                 {menuItemArray.map((menuItem, index) => <Button sx={{ color: "oklch(0.9 0 0)", fontWeight: 600 }} key={index} >{menuItem}</Button>)}
                 <Switch onChange={handleToggle} />
-                22
             </Box>
             <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
         </Box>

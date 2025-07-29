@@ -1,12 +1,17 @@
 import { Box, createTheme, ThemeProvider } from '@mui/material'
+import { useEffect } from 'react'
 import { Outlet } from 'react-router'
 import Navbar from './NavBar'
 import { colorStyle } from './_constants/colorConstants'
-import { useDarkMode } from './_hooks/hooks'
+import useMovieStore from './_store/store'
 
 const Layout = () => {
-  const { isDark } = useDarkMode()
-
+  const isDark = useMovieStore((state) => state.isDark)
+  const initializeIsDark = useMovieStore((state) => state.initializeIsDark)
+  
+  useEffect(() => { initializeIsDark() }, [])
+  
+  
   const theme = createTheme({
     palette: {
       mode: isDark ? 'dark' : "light"
