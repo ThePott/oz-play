@@ -16,12 +16,11 @@ const SearchBox = ({ text, onChange, onBlur, onKeyDown }: SearchBoxProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   const containerBaseStyle = `ml-auto flex transition border-1 outline-0 rounded-xl absolute right-3 ${colorStyle.bgBack}`
-  const containerTextStyle = text ? "max-w-[300px] w-full" : ""
   const containerFocuseStyle = isFocused ? colorStyle.borderVivid : colorStyle.borderMuted
-  const containerStyle = `${containerBaseStyle} ${containerTextStyle} ${containerFocuseStyle}`
+  const containerStyle = `${containerBaseStyle} ${containerFocuseStyle}`
 
   const inputBaseStyle = `transition border-0 outline-0`
-  const inputFocusStyle = `${isFocused || text ? "grow p-3 pr-0" : "w-0"}`
+  const inputFocusStyle = `${isFocused || text ? "w-[300px] p-3 pr-0" : "w-0"}`
   const inputStyle = `${inputBaseStyle} ${inputFocusStyle}`
 
   const handleIconClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
