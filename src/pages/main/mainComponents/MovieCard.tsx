@@ -3,6 +3,7 @@ import { imageBaseUrl } from '../../../_constants/constants'
 import { Link } from 'react-router'
 import { Box, Typography } from '@mui/material'
 import { useState } from 'react'
+import { colorStyle } from '../../../_constants/colorConstants'
 
 const VoteText = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
   const voteAverage = Math.round(movieCardInfo["vote_average"] * 10) / 10
@@ -16,19 +17,24 @@ const VoteText = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
   )
 }
 
-const MovieCard = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
+const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: MovieCardInfo, variant: "NORMAL" | "BIG" }) => {
   const posterSrc = `${imageBaseUrl}${movieCardInfo.poster_path}`
   const [isMouseOver, setIsMouseOver] = useState(false)
 
+  const linkBaseStyle = `transition overflow-hidden bg-zinc-800 flex flex-col items-start relative rounded-xl`
+  const linkNormalStyle = `min-w-[200px] h-[300px] ${isMouseOver && "scale-110 z-10 -translate-y-[15px]"}`
+  const linkBigStyle = `w-[400px] shrink-0 h-[600px]`
+  const linkVariantStyle = `${linkBaseStyle} ${variant === "NORMAL" ? linkNormalStyle : linkBigStyle}`
+
   return (
     <Link to={`/detail/${movieCardInfo.id}`}
-      className={`min-w-[200px] transition ${isMouseOver && "scale-110 z-10 -translate-y-[15px]"} h-[300px] overflow-hidden bg-zinc-800 flex flex-col items-start relative rounded-xl`}
+      className={linkVariantStyle}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}>
 
       <img src={posterSrc} alt={`${movieCardInfo.title}__poster`} className={`transition ${isMouseOver && "scale-105"} duration-500`} />
 
-      <Box className={`transition absolute bottom-0 bg-zinc-800 ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>
+      <Box className={`transition absolute bottom-0 ${colorStyle.bgFront} ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>
         <Typography sx={{
           textWrap: isMouseOver ? undefined : "nowrap",
           wordBreak: "keep-all",

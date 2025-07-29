@@ -1,18 +1,61 @@
-import { Box, Button } from "@mui/material"
-import { Link } from "react-router"
+import { Box, Button, Switch } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import { Link, useSearchParams } from "react-router"
+import SearchBox from "./SearchBox"
+import { useDarkMode, useSearchText } from "./_hooks/hooks"
+import { isSystemDark } from "./_utils/utils"
+import { colorStyle } from "./_constants/colorConstants"
+// import LightDarkSwitch from "./LightDarkSwitch"
 
 const menuItemArray = ["TV", "영화", "스포츠", "키즈", "라이브"]
 
-const Navbar = () => {
-    return (
-        <Box className="flex items-center gap-6 p-3 h-[72px] fixed top-0 bg-zinc-900 z-10 w-full">
-            <Link to="/" className="text-2xl font-semibold">oz play</Link>
 
-            <Box className="flex gap-3">
-                {menuItemArray.map((menuItem, index) => <Button sx={{color: "oklch(0.9 0 0)", fontWeight: 600}} key={index} >{menuItem}</Button>)}
+const Navbar = React.memo(() => {
+    // const { mode, setMode } = useColorScheme()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const { text, setText, timeoutId } = useSearchText()
+    const { toggleDarkMode } = useDarkMode()
+
+    useEffect(
+        () => {
+            if (isSystemDark()) {
+                document.documentElement.classList.add("dark")
+            }
+        },
+        []
+    )
+
+
+    const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)
+    const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+        if (timeoutId) { clearTimeout(timeoutId) }
+
+        const value = event.target.value
+        value ? setSearchParams({ title: value }) : setSearchParams({})
+    }
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== "Enter") { return }
+
+        if (timeoutId) { clearTimeout(timeoutId) }
+
+        const value = event.currentTarget.value
+        value ? setSearchParams({ title: value }) : setSearchParams({})
+    }
+
+    const handleToggle = () => toggleDarkMode()
+
+
+    return (
+        <Box className={`flex items-center gap-6 p-3 h-[72px] fixed top-0 ${colorStyle.bgFront} z-10 w-full`}>
+            <Link to="/" className="text-2xl font-semibold shrink-0">oz play</Link>
+            <Box className="gap-3 hidden md:flex grow">
+                {menuItemArray.map((menuItem, index) => <Button sx={{ color: "oklch(0.9 0 0)", fontWeight: 600 }} key={index} >{menuItem}</Button>)}
+                <Switch onChange={handleToggle} />
+                22
             </Box>
+            <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
         </Box>
     )
-}
+})
 
 export default Navbar
