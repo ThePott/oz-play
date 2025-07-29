@@ -22,7 +22,12 @@ const Navbar = React.memo(() => {
         if (timeoutId) { clearTimeout(timeoutId) }
 
         const value = event.target.value
-        value ? setSearchParams({ title: value }) : setSearchParams({})
+        if (!value) {
+            setSearchParams({})
+            return
+        }
+
+        setSearchParams({ title: value })
     }
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== "Enter") { return }
@@ -30,7 +35,12 @@ const Navbar = React.memo(() => {
         if (timeoutId) { clearTimeout(timeoutId) }
 
         const value = event.currentTarget.value
-        value ? setSearchParams({ title: value }) : setSearchParams({})
+        if (!value) {
+            setSearchParams({})
+            return
+        }
+
+        setSearchParams({ title: value })
     }
 
     const handleToggle = () => toggleIsDark()

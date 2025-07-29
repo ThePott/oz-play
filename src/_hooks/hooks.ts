@@ -57,6 +57,11 @@ export const useSearchText = () => {
             if (text === searchParams.get("title")) { return }
             const tempTimeoutId = setTimeout(
                 () => {
+                    if (!text) {
+                        setSearchParams({})
+                        return
+                    }
+                    
                     setSearchParams({ title: text })
                 },
                 1000

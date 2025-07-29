@@ -13,7 +13,8 @@ export const signUp = async (name: string, email: string, password: string) => {
             data: {
                 name: name,
             }
-        }
+        },
+        
     })
 
     console.log("---- data of sign UP:", data, "---- error:", error)
