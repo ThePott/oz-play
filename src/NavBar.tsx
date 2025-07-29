@@ -38,10 +38,13 @@ const Navbar = React.memo(() => {
     return (
         <Box className={`flex items-center gap-6 p-3 h-[72px] fixed top-0  z-10 w-full`}>
             <Link to="/" className="text-2xl font-semibold shrink-0">oz play</Link>
-            <Box className="gap-3 hidden md:flex grow">
+            <Box className="transition gap-3 shrink-0 max-[500px]:hidden">
                 {menuItemArray.map((menuItem, index) => <Button sx={makeButtonSx("TEXT", isDark)} key={index} >{menuItem}</Button>)}
-                <Switch checked={!isDark} onChange={handleToggle} />
+                <span className="max-[576px]:hidden">
+                    <Switch checked={!isDark} onChange={handleToggle} />
+                </span>
             </Box>
+            <Box className="grow" />
             <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
         </Box>
     )
