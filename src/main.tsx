@@ -5,6 +5,7 @@ import Layout from './Layout.tsx'
 import DetailPage from './pages/detail/DetailPage.tsx'
 import MainPage from './pages/main/MainPage.tsx'
 import TestPage from './pages/test/TestPage.tsx'
+import LoginPage from './auth/login/LoginPage.tsx'
 import SignupPage from './auth/signup/SignupPage.tsx'
 
 const router = createBrowserRouter([
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
       { path: "/", element: <MainPage /> },
       { path: "/detail/:movieId", element: <DetailPage /> },
       { path: "/test", element: <TestPage /> },
-      { path: "/signup", element: <SignupPage /> }
+      { path: "/signup", element: <SignupPage /> },
+      { path: "/login", element: <LoginPage /> }
     ],
   }
 ])

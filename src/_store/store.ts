@@ -29,6 +29,9 @@ interface MovieState {
 
     movieArrayDict: any
     updateArrayFromDict: (key: string, movieArray: any) => void
+
+    user: any | null
+    setUser: (user: any | null) => void
 }
 
 const useMovieStore = create<MovieState>()((set) => ({
@@ -62,10 +65,12 @@ const useMovieStore = create<MovieState>()((set) => ({
     movieArrayDict: {},
     updateArrayFromDict(key, movieArray) {
         set((state) => {
-            return {movieArrayDict: {...state.movieArrayDict, [key]: movieArray}}
+            return { movieArrayDict: { ...state.movieArrayDict, [key]: movieArray } }
         })
     },
 
+    user: null,
+    setUser(user) { set({ user }) },
 }))
 
 export default useMovieStore

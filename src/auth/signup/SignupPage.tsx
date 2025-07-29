@@ -1,6 +1,8 @@
 import { Box, Button, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { signUp } from '../../_database/supabase';
+import useMovieStore from '../../_store/store';
+import { useNavigate } from 'react-router';
 
 interface FormData {
     name: string
@@ -75,6 +77,20 @@ const SignupPage = () => {
     const [formData, setFormData] = useState<FormData>({ name: "", email: "", password1: "", password2: "" })
     const [formError, setFormError] = useState<FormError>({})
 
+    const setUser = useMovieStore((state) => state.setUser)
+    const navigate = useNavigate()
+
+    const user = useMovieStore((state) => state.user)
+
+    useEffect(
+        () => {
+            if (!user) { return }
+            navigate("/")
+        },
+        [user]
+    )
+
+
     const setName = (name: string) => setFormData((prev) => ({ ...prev, name }))
     const setEmail = (email: string) => setFormData((prev) => ({ ...prev, email }))
     const setPassword1 = (password1: string) => setFormData((prev) => ({ ...prev, password1 }))
@@ -101,7 +117,7 @@ const SignupPage = () => {
         const password2 = formData.password2
 
         console.log("---- result:", name, email, password1, password2)
-        signUp(name, email, password1)
+        signUp(name, email, password1, setUser)
     }
 
     return (
