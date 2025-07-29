@@ -5,6 +5,7 @@ import SearchBox from "./SearchBox"
 import { useSearchText } from "./_hooks/hooks"
 import useMovieStore from "./_store/store"
 import { makeButtonSx } from "./_utils/utils"
+import ProfileBox from "./ProfileBox"
 
 const menuItemArray = ["TV", "영화", "스포츠", "키즈", "라이브"]
 
@@ -44,7 +45,10 @@ const Navbar = React.memo(() => {
                     <Switch checked={!isDark} onChange={handleToggle} />
                 </span>
             </Box>
-            <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
+            <Box className="absolute right-3 flex items-center gap-3">
+                <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />
+                <ProfileBox />
+            </Box>
         </Box>
     )
 })

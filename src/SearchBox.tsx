@@ -15,7 +15,7 @@ const SearchBox = ({ text, onChange, onBlur, onKeyDown }: SearchBoxProps) => {
   const [searchParams, _setSearchParams] = useSearchParams()
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
-  const containerBaseStyle = `ml-auto flex transition border-1 outline-0 rounded-xl absolute right-3 ${colorStyle.bgBack}`
+  const containerBaseStyle = `ml-auto flex transition border-1 outline-0 rounded-xl ${colorStyle.bgBack}`
   const containerFocuseStyle = isFocused ? colorStyle.borderVivid : colorStyle.borderMuted
   const containerStyle = `${containerBaseStyle} ${containerFocuseStyle}`
 
