@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import MagnifyingGlassIcon from './components/MagnifyingGlassIcon'
 import { useSearchParams } from 'react-router'
+import { colorStyle } from './_constants/colorConstants'
 
 interface SearchBoxProps {
   text: string
@@ -17,7 +18,7 @@ const SearchBox = ({ text, onChange, onBlur, onKeyDown }: SearchBoxProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   const containerBaseStyle = `flex p-3 transition border-1 outline-0 rounded-xl justify-self-end`
-  const containerFocuseStyle = isFocused ? "border-zinc-400" : "border-zinc-600"
+  const containerFocuseStyle = isFocused ? colorStyle.borderVivid : colorStyle.borderMuted
   const containerStyle = `${containerBaseStyle} ${containerFocuseStyle}`
 
   const inputBaseStyle = `transition border-0 outline-0 rounded-xl `

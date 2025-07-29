@@ -30,8 +30,11 @@ const useMovieStore = create<MovieState>()((set) => ({
     isDark: false,
     initializeIsDark() {
         set(() => {
-            const isDark = document.documentElement.classList.contains("dark")
-            return { isDark }
+            const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+            if (isSystemDark) { document.documentElement.classList.add("dark") }
+
+            return { isDark: isSystemDark }
         })
     },
     toggleIsDark() {

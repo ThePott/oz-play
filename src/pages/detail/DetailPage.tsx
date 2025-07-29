@@ -6,11 +6,12 @@ import useMovieStore from "../../_store/store"
 import { useEffect } from 'react'
 import YoutubeBox from './detailComponents/YoutubeBox'
 import MovieCardGrid from '../main/mainComponents/MovieCardGrid'
+import { makeButtonSx } from '../../_utils/utils'
 
-// sx={{ fontWeight: 600, color: "oklch(0.9 0 0)", borderColor: "oklch(0.6 0 0)" }}
 const GenreChip = ({ id, name }: { id: number, name: string }) => {
+  const isDark = useMovieStore((state) => state.isDark)
   return (
-    <Button variant='outlined' className="p-3 shrink-0">{name}</Button>
+    <Button variant='outlined' sx={makeButtonSx('OUTLINED', isDark)} className="p-3 shrink-0">{name}</Button>
   )
 }
 
@@ -43,7 +44,6 @@ const DetailPage = () => {
       <Box className="col-span-2 flex flex-col gap-6">
         <YoutubeBox youtubeKey={youtubeKey} />
 
-        {/* <Box className='flex flex-col gap-6 max-w-[750px] w-full'> */}
         <p className="text-5xl font-semibold">{selectedMovie["title"]}</p>
         <Box>
           <p className="text-2xl mb-2">{selectedMovie.tagline}</p>
@@ -56,7 +56,6 @@ const DetailPage = () => {
         <Typography>{selectedMovie["overview"]}</Typography>
       </Box>
 
-      {/* </Box> */}
 
       <Box className='flex flex-col gap-6 max-w-[750px] w-full'>
         <Box>
