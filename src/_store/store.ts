@@ -19,6 +19,7 @@ export type MovieDict = Record<number, any>
 
 interface MovieState {
     movieDict: MovieDict
+    setMovieDict: (movieDict: MovieDict) => void
     addToMovieDict: (movieDict: MovieDict) => void
 
     movieArray: any
@@ -54,6 +55,7 @@ interface MovieState {
 const useMovieStore = create<MovieState>()(
     persist((set) => ({
         movieDict: {},
+        setMovieDict(movieDict) { set({ movieDict }) },
         addToMovieDict(movieDict) {
             set((state) => {
                 return { movieDict: { ...state.movieDict, ...movieDict } }

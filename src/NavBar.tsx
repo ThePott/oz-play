@@ -12,35 +12,19 @@ const menuItemArray = ["TV", "영화", "스포츠", "키즈", "라이브"]
 
 const Navbar = React.memo(() => {
     const [_searchParams, setSearchParams] = useSearchParams()
-    const { text, setText, timeoutId } = useSearchText()
+    const { text, setText, timeoutId, setSearchParamsNow } = useSearchText()
 
     const toggleIsDark = useMovieStore((state) => state.toggleIsDark)
     const isDark = useMovieStore((state) => state.isDark)
 
     const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)
     const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
-        if (timeoutId) { clearTimeout(timeoutId) }
-
-        const value = event.target.value
-        if (!value) {
-            setSearchParams({})
-            return
-        }
-
-        setSearchParams({ title: value })
+        setSearchParamsNow()
     }
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== "Enter") { return }
 
-        if (timeoutId) { clearTimeout(timeoutId) }
-
-        const value = event.currentTarget.value
-        if (!value) {
-            setSearchParams({})
-            return
-        }
-
-        setSearchParams({ title: value })
+        setSearchParamsNow()
     }
 
     const handleToggle = () => toggleIsDark()

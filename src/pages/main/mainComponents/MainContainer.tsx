@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material"
 import { useEffect, useRef } from "react"
 // import type { MovieCardInfo } from "../../../_interfaces/interfaces"
-import { getMovieALot } from "../../../_services/tmdbServices"
+// import { getMovieALot } from "../../../_services/tmdbServices"
 import useMovieStore from "../../../_store/store"
 import CategoryTitle from "./CategoryTitle"
 import MovieCardGrid from "./MovieCardGrid"

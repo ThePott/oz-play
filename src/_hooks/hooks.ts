@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useCallback, useEffect, useRef, useState } from "react"
 import useMovieStore from "../_store/store"
-import { getDetail, getMovieALot, getMovieDict } from "../_services/tmdbServices"
+import { getDetail,  getMovieDict } from "../_services/tmdbServices"
 import { useSearchParams } from "react-router"
 
 const apiReadAccessToken = import.meta.env.VITE_API_READ_ACCESS_TOKEN
@@ -34,7 +34,7 @@ export const useMovieGet = () => {
     useEffect(
         () => {
             console.log("---- NO CALL AFTER MOUNT")
-            getMovieALot(page, setMovieArray, query, increasePage)
+            // getMovieALot(page, setMovieArray, query, increasePage)
         },
         [query]
     )
@@ -55,12 +55,30 @@ export const useSearchText = () => {
     const [timeoutId, setTimeoutId] = useState<number | undefined>(undefined)
 
     const [text, setText] = useState<string>(searchParams.get("title") ?? "")
+    const resetPage = useMovieStore((state) => state.resetPage)
+
+    const setSearchParamsNow = useCallback(() => {
+        if (timeoutId) {
+            clearTimeout(timeoutId)
+            setTimeoutId(undefined)
+        }
+
+        resetPage()
+
+        if (!text) {
+            setSearchParams({})
+            return
+        }
+
+        setSearchParams({ title: text })
+    }, [text])
 
     useEffect(
         () => {
             if (text === searchParams.get("title")) { return }
             const tempTimeoutId = setTimeout(
                 () => {
+                    resetPage()
                     if (!text) {
                         setSearchParams({})
                         return
@@ -77,7 +95,7 @@ export const useSearchText = () => {
         [text]
     )
 
-    return { text, setText, timeoutId }
+    return { text, setText, timeoutId, setSearchParamsNow }
 }
 
 const intersectionCallback = (entries: any, callback: any) => {
@@ -105,7 +123,7 @@ export const useBottomAppendation = () => {
 
         if ((now - startRef.current) < 2000) { return }
 
-        getMovieALot(page, appendMovieArray, query, increasePage)
+        // getMovieALot(page, appendMovieArray, query, increasePage)
         startRef.current = Number(new Date())
     }
 
@@ -137,9 +155,13 @@ export const useBasicMovieDictGet = () => {
     const increasePage = useMovieStore((state) => state.increasePage)
     const query = searchParams.get("title") ?? ""
     const movieDict = useMovieStore((state) => state.movieDict)
-    const addToMovieDict = useMovieStore((state) => state.addToMovieDict)
+    // const addToMovieDict = useMovieStore((state) => state.addToMovieDict)
+    const setMovieDict = useMovieStore((state) => state.setMovieDict)
 
-    useEffect(() => { getMovieDict(page, query, movieDict, addToMovieDict, increasePage) }, [])
+    useEffect(() => {
+        console.log("---- fetch from basic")
+        getMovieDict(page, query, movieDict, setMovieDict, increasePage)
+    }, [query])
 }
 
 export const useMovieDictGetCallback = () => {
@@ -150,7 +172,9 @@ export const useMovieDictGetCallback = () => {
     const movieDict = useMovieStore((state) => state.movieDict)
     const addToMovieDict = useMovieStore((state) => state.addToMovieDict)
 
-    const getMoreMovieDict = useCallback(() => getMovieDict(page, query, movieDict, addToMovieDict, increasePage), [page])
+    const getMoreMovieDict = useCallback(() => {
+        console.log("---- fetch from manual button click:", page)
+        getMovieDict(page, query, movieDict, addToMovieDict, increasePage)}, [page, query])
 
     return { getMoreMovieDict }
 }
