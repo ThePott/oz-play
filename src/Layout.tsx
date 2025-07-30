@@ -8,7 +8,6 @@ import useMovieStore from './_store/store'
 const Layout = () => {
   const isDark = useMovieStore((state) => state.isDark)
   const initializeIsDark = useMovieStore((state) => state.initializeIsDark)
-  
   useEffect(() => { initializeIsDark() }, [])
   
   

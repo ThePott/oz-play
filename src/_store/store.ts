@@ -36,6 +36,12 @@ interface MovieState {
 
     googleCredentialResponse: any | null
     setGoogleCredentialResponse: (googleCredentialResponse: any | null) => void
+
+    loginError: any
+    setLoginError: (loginError: any) => void
+
+    password1Ref: any
+    setPassword1Ref: (password1Ref) => void
 }
 
 const useMovieStore = create<MovieState>()(
@@ -80,6 +86,12 @@ const useMovieStore = create<MovieState>()(
 
             googleCredentialResponse: null,
             setGoogleCredentialResponse(googleCredentialResponse) { set({ googleCredentialResponse }) },
+
+            loginError: null,
+            setLoginError(loginError) { set({ loginError }) },
+
+            password1Ref: null,
+            setPassword1Ref(password1Ref) { set({ password1Ref }) },
         }),
         {
             name: 'oz-movie-app-user',

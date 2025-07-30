@@ -19,6 +19,8 @@ const ProfileBox = () => {
   const isLoggedIn = user || googleCredentialResponse
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    console.log("----user:", user)
+    
     if (!isLoggedIn) {
       navigate("/login")
       return

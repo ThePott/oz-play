@@ -8,6 +8,7 @@ const MainPage = () => {
   const [searchParams, _setSearchParams] = useSearchParams()
 
 
+
   if (searchParams.get("title")) { return <SearchResultContainer /> }
 
   return (

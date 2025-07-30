@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js"
+import { createClient, type Provider } from "@supabase/supabase-js"
 
 const projectUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL
 const apiKey = import.meta.env.VITE_SUPABASE_API_KEY
@@ -25,7 +25,7 @@ export const signUp = async (name: string, email: string, password: string, setU
     setUser(data.user)
 }
 
-export const signInWithEmail = async (email: string, password: string, setUser: (user: any | null) => void) => {
+export const signInWithEmail = async (email: string, password: string, setUser: (user: any | null) => void, setLoginError: (loginError: any) => void) => {
     const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -36,10 +36,12 @@ export const signInWithEmail = async (email: string, password: string, setUser: 
 
     if (error) {
         console.error("---- ERROR OCCURRED:", error)
+        setLoginError(error)
         return
     }
 
     setUser(data.user)
+    setLoginError(null)
 }
 
 export const signOut = async (setUser: (user: any | null) => void) => {
@@ -53,4 +55,17 @@ export const signOut = async (setUser: (user: any | null) => void) => {
     console.log("---- signed out")
 
     setUser(null)
+}
+
+export const singInWithProvider = async (provider: Provider, setUser: (user: any | null) => void, setLoginError: (loginError: any) => void) => {
+    const { data, error } = await supabase.auth.signInWithOAuth({ provider })
+    console.log("---- data:", data, "---- error:", error)
+    if (error) {
+        console.error("---- ERROR OCCURRED:", error)
+        setLoginError(error)
+        return
+    }
+
+    setUser(data)
+    setLoginError(null)
 }
