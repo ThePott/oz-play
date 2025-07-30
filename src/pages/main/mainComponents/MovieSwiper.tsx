@@ -6,7 +6,7 @@ import { Swiper as SwiperType } from "swiper";
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import type { MovieCardInfo } from '../../../_interfaces/interfaces';
+// import type { MovieCardInfo } from '../../../_interfaces/interfaces';
 import "./customSwiper.css";
 import MovieCard from './MovieCard';
 
@@ -38,7 +38,7 @@ const NextButton = React.memo(({ swiperRef }: { swiperRef: React.RefObject<Swipe
   );
 })
 
-const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swiperRef }: { activeIndex: number, movieCardInfoArray: MovieCardInfo[], swiperRef: React.RefObject<SwiperType | null> }) => {
+const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swiperRef }: { activeIndex: number, movieCardInfoArray: any[], swiperRef: React.RefObject<SwiperType | null> }) => {
   const paginationText = `${activeIndex + 1} / ${movieCardInfoArray.length}`
   return (
     <Box className="flex gap-3 items-center mt-3">
@@ -49,7 +49,7 @@ const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swi
   )
 })
 
-const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardInfoArray: MovieCardInfo[], isLoading: boolean }) => {
+const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardInfoArray: any[], isLoading: boolean }) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0)
 

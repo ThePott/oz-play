@@ -1,23 +1,23 @@
-import type { MovieCardInfo } from '../../../_interfaces/interfaces'
+// import type { MovieCardInfo } from '../../../_interfaces/interfaces'
 import { imageBaseUrl } from '../../../_constants/constants'
 import { Link } from 'react-router'
 import { Box, Typography } from '@mui/material'
 import { useState } from 'react'
 import { colorStyle } from '../../../_constants/colorConstants'
 
-const VoteText = ({ movieCardInfo }: { movieCardInfo: MovieCardInfo }) => {
+const VoteText = ({ movieCardInfo }: { movieCardInfo: any }) => {
   const voteAverage = Math.round(movieCardInfo["vote_average"] * 10) / 10
   const voteCount = `(${movieCardInfo["vote_count"]})`
 
   return (
     <Box className="flex gap-3">
-      <Typography sx={{ fontWeight: 500}}>{voteAverage}</Typography>
+      <Typography sx={{ fontWeight: 500 }}>{voteAverage}</Typography>
       <Typography sx={{ color: "oklch(0.8 0 0)" }}>{voteCount}</Typography>
     </Box>
   )
 }
 
-const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: MovieCardInfo, variant: "NORMAL" | "BIG" }) => {
+const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: any, variant: "NORMAL" | "BIG" }) => {
   const posterSrc = `${imageBaseUrl}${movieCardInfo.poster_path}`
   const [isMouseOver, setIsMouseOver] = useState(false)
 
@@ -27,11 +27,11 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: MovieCardInfo, v
   const linkVariantStyle = `${linkBaseStyle} ${variant === "NORMAL" ? linkNormalStyle : linkBigStyle}`
 
   return (
-    <Link to={`/detail/${movieCardInfo.id}`}
-      className={linkVariantStyle}
-      onMouseEnter={() => setIsMouseOver(true)}
-      onMouseLeave={() => setIsMouseOver(false)}>
-
+    // <Link to={`/detail/${movieCardInfo.id}`}
+    //   className={linkVariantStyle}
+    //   onMouseEnter={() => setIsMouseOver(true)}
+    //   onMouseLeave={() => setIsMouseOver(false)}>
+    <Box onClick={() => console.log("---- card info:", movieCardInfo.page, movieCardInfo.id)} className={linkVariantStyle}>
       <img src={posterSrc} alt={`${movieCardInfo.title}__poster`} className={`transition ${isMouseOver && "scale-105"} duration-500`} />
 
       <Box className={`transition absolute bottom-0 ${colorStyle.bgFront} ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>
@@ -42,8 +42,8 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: MovieCardInfo, v
         }}>{movieCardInfo.title}</Typography>
         <VoteText movieCardInfo={movieCardInfo} />
       </Box>
-
-    </Link>
+    </Box>
+    // </Link>
   )
 }
 

@@ -1,5 +1,6 @@
 import { axiosMovie } from "./axiosSettings"
 import { keyUrlDictArray, makeGenreUrl, genreDictArray } from "../_constants/constants"
+import type { MovieDict } from "../_store/store"
 
 const getJsonPromise = async (url: string, targetArray: string[]) => {
     const response = await axiosMovie.get(url)
@@ -20,19 +21,17 @@ const makePagedUrl = (page: number, query: string) => {
     return `https://api.themoviedb.org/3/search/movie?query=${trimmedQuery}&include_adult=false&language=ko&page=1`
 }
 
-export const getMovieALot = async (pageLength: number, setMovieArray: (movieArray: any) => void, query: string) => {
-    const dummyArray = [...Array(pageLength).keys()]
-    const promiseArray = dummyArray.reduce((acc: Promise<any>[], index) => {
-        const url = makePagedUrl(index + 1, query)
-        const json = getJsonPromise(url, ["results"])
+export const getMovieALot = async (page: number, setMovieArray: (movieArray: any) => void, query: string, increasePage: () => void) => {
+    console.log("---- page:", page)
+    const url = makePagedUrl(page, query)
+    const json = await getJsonPromise(url, ["results"])
 
-        return [...acc, json]
-    }, [])
-
-    const resolvedArray = await Promise.all(promiseArray)
-    const flattenedArray = resolvedArray.flat()
-
-    setMovieArray(flattenedArray)
+    setMovieArray(json)
+    if (!increasePage) {
+        console.error("---- no page increase")
+        return
+    }
+    increasePage()
 }
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
@@ -47,4 +46,26 @@ export const getVariousMovieArray = async () => {
         acc[cur.key] = await axiosMovie.get(cur.url)
     }, {})
     console.log("---- result:", result)
+}
+
+export const getMovieDict = async (page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void) => {
+    const url = makePagedUrl(page, query)
+    const json = await getJsonPromise(url, ["results"])
+
+    const newMovieDict = json.reduce((acc: MovieDict, cur: any) => {
+        if (movieDict[cur.id]) { 
+            return acc 
+        }
+        
+        // if (cur.id === 575265 || cur.id === "575265") {debugger}
+
+        const pageIncludedDict = { ...cur, page }
+        acc[cur.id] = pageIncludedDict
+        return acc
+    }, {})
+
+    addToMovieDict(newMovieDict)
+    increasePage()
+
+    // debugger
 }

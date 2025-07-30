@@ -15,9 +15,15 @@ interface MovieArrayDict {
     movieArray: []
 }
 
+export type MovieDict = Record<number, any>
+
 interface MovieState {
+    movieDict: MovieDict
+    addToMovieDict: (movieDict: MovieDict) => void
+
     movieArray: any
     setMovieArray: (movieArray: any) => void
+    appendMovieArray: (movieArray: any) => void
     selectedMovie: any
     setSelectedMovie: (selectedMovie: any) => void
 
@@ -39,54 +45,77 @@ interface MovieState {
 
     providerCredentialResponse: any
     setProviderCredentialResponse: (providerCredentialResponse: any) => void
+
+    page: number
+    increasePage: () => void
+    resetPage: () => void
 }
 
 const useMovieStore = create<MovieState>()(
-    persist(
-        (set) => ({
-            movieArray: [],
-            setMovieArray(movieArray) { set({ movieArray }) },
-            selectedMovie: null,
-            setSelectedMovie(selectedMovie) {
-                set({ selectedMovie })
-            },
+    persist((set) => ({
+        movieDict: {},
+        addToMovieDict(movieDict) {
+            set((state) => {
+                return { movieDict: { ...state.movieDict, ...movieDict } }
+            })
+        },
 
-            searchedMovieArray: null,
-            setSearchedMovieArray(searchedMovieArray) { set({ searchedMovieArray }) },
+        movieArray: [],
+        setMovieArray(movieArray) { set({ movieArray }) },
+        appendMovieArray(movieArray) {
+            set((state) => {
+                return { movieArray: [...state.movieArray, ...movieArray] }
+            })
+        },
+        selectedMovie: null,
+        setSelectedMovie(selectedMovie) {
+            set({ selectedMovie })
+        },
 
-            isDark: false,
-            initializeIsDark() {
-                set(() => {
-                    const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        searchedMovieArray: null,
+        setSearchedMovieArray(searchedMovieArray) { set({ searchedMovieArray }) },
 
-                    if (isSystemDark) { document.documentElement.classList.add("dark") }
+        isDark: false,
+        initializeIsDark() {
+            set(() => {
+                const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
-                    return { isDark: isSystemDark }
-                })
-            },
-            toggleIsDark() {
-                set((state) => {
-                    document.documentElement.classList.toggle("dark")
-                    return { isDark: !state.isDark }
-                })
-            },
+                if (isSystemDark) { document.documentElement.classList.add("dark") }
 
-            movieArrayDict: {},
-            updateArrayFromDict(key, movieArray) {
-                set((state) => {
-                    return { movieArrayDict: { ...state.movieArrayDict, [key]: movieArray } }
-                })
-            },
+                return { isDark: isSystemDark }
+            })
+        },
+        toggleIsDark() {
+            set((state) => {
+                document.documentElement.classList.toggle("dark")
+                return { isDark: !state.isDark }
+            })
+        },
 
-            user: null,
-            setUser(user) { set({ user }) },
+        movieArrayDict: {},
+        updateArrayFromDict(key, movieArray) {
+            set((state) => {
+                return { movieArrayDict: { ...state.movieArrayDict, [key]: movieArray } }
+            })
+        },
 
-            loginError: null,
-            setLoginError(loginError) { set({ loginError }) },
+        user: null,
+        setUser(user) { set({ user }) },
 
-            providerCredentialResponse: null,
-            setProviderCredentialResponse(providerCredentialResponse) { set({ providerCredentialResponse }) },
-        }),
+        loginError: null,
+        setLoginError(loginError) { set({ loginError }) },
+
+        providerCredentialResponse: null,
+        setProviderCredentialResponse(providerCredentialResponse) { set({ providerCredentialResponse }) },
+
+        page: 1,
+        increasePage() {
+            set((state) => {
+                return { page: state.page + 1 }
+            })
+        },
+        resetPage() { set({ page: 1 }) }
+    }),
         {
             name: 'oz-movie-app-user',
             partialize: (state) => ({ user: state.user, }),

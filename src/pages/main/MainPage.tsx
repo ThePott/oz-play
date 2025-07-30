@@ -1,16 +1,19 @@
 import { useSearchParams } from 'react-router'
-import { useMovieGet } from '../../_hooks/hooks'
+import { useBasicMovieDictGet, useMovieDictGetCallback, useMovieGet } from '../../_hooks/hooks'
 import MainContainer from './mainComponents/MainContainer'
 import SearchResultContainer from './mainComponents/SearchResultContainer'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { getUser } from '../../_database/supabase'
 import useMovieStore from '../../_store/store'
+import { getMovieDict } from '../../_services/tmdbServices'
 
 const MainPage = () => {
   const [searchParams, _setSearchParams] = useSearchParams()
   const setUser = useMovieStore((state) => state.setUser)
-  const setProviderCredentialResponse = useMovieStore((state) => state.setProviderCredentialResponse)  
-  useMovieGet()
+  const setProviderCredentialResponse = useMovieStore((state) => state.setProviderCredentialResponse)
+  // useMovieGet()
+  useBasicMovieDictGet()
+  
 
   useEffect(
     () => {

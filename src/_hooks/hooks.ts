@@ -1,7 +1,7 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import useMovieStore from "../_store/store"
-import { getDetail, getMovieALot } from "../_services/tmdbServices"
+import { getDetail, getMovieALot, getMovieDict } from "../_services/tmdbServices"
 import { useSearchParams } from "react-router"
 
 const apiReadAccessToken = import.meta.env.VITE_API_READ_ACCESS_TOKEN
@@ -28,11 +28,15 @@ export const useMovieGet = () => {
     const setMovieArray = useMovieStore((state) => state.setMovieArray)
     const [searchParams, _setSearchParams] = useSearchParams()
     const query = searchParams.get("title") ?? ""
+    const page = useMovieStore((state) => state.page)
+    const increasePage = useMovieStore((state) => state.increasePage)
+
     useEffect(
         () => {
-            getMovieALot(1, setMovieArray, query)
+            console.log("---- NO CALL AFTER MOUNT")
+            getMovieALot(page, setMovieArray, query, increasePage)
         },
-        [searchParams]
+        [query]
     )
 }
 
@@ -61,7 +65,7 @@ export const useSearchText = () => {
                         setSearchParams({})
                         return
                     }
-                    
+
                     setSearchParams({ title: text })
                 },
                 1000
@@ -74,4 +78,79 @@ export const useSearchText = () => {
     )
 
     return { text, setText, timeoutId }
+}
+
+const intersectionCallback = (entries: any, callback: any) => {
+    entries.forEach((entry: any) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+            callback()
+        }
+    });
+}
+
+export const useBottomAppendation = () => {
+    const [searchParams, _setSearchParams] = useSearchParams()
+    const page = useMovieStore((state) => state.page)
+    const increasePage = useMovieStore((state) => state.increasePage)
+    const resetPage = useMovieStore((state) => state.resetPage)
+    const appendMovieArray = useMovieStore((state) => state.appendMovieArray)
+    const query = searchParams.get("title") ?? ""
+    const bottomRef = useRef(null);
+
+    const startRef = useRef<number>(Number(new Date()))
+
+
+    const callback = () => {
+        const now = Number(new Date())
+
+        if ((now - startRef.current) < 2000) { return }
+
+        getMovieALot(page, appendMovieArray, query, increasePage)
+        startRef.current = Number(new Date())
+    }
+
+    useEffect(() => {
+        console.log("--- new page in effect:", page)
+        const observer = new IntersectionObserver(
+            (entries) => intersectionCallback(entries, callback), {
+            threshold: 0.75
+        });
+
+        if (bottomRef.current) {
+            observer.observe(bottomRef.current);
+        }
+
+        return () => {
+            console.log("---- clean up observer for:", page)
+            observer.disconnect()
+        }
+    }, [page])
+
+    useEffect(() => { return () => resetPage() }, [query])
+
+    return { bottomRef }
+}
+
+export const useBasicMovieDictGet = () => {
+    const [searchParams, _setSearchParams] = useSearchParams()
+    const page = useMovieStore((state) => state.page)
+    const increasePage = useMovieStore((state) => state.increasePage)
+    const query = searchParams.get("title") ?? ""
+    const movieDict = useMovieStore((state) => state.movieDict)
+    const addToMovieDict = useMovieStore((state) => state.addToMovieDict)
+
+    useEffect(() => { getMovieDict(page, query, movieDict, addToMovieDict, increasePage) }, [])
+}
+
+export const useMovieDictGetCallback = () => {
+    const [searchParams, _setSearchParams] = useSearchParams()
+    const page = useMovieStore((state) => state.page)
+    const increasePage = useMovieStore((state) => state.increasePage)
+    const query = searchParams.get("title") ?? ""
+    const movieDict = useMovieStore((state) => state.movieDict)
+    const addToMovieDict = useMovieStore((state) => state.addToMovieDict)
+
+    const getMoreMovieDict = useCallback(() => getMovieDict(page, query, movieDict, addToMovieDict, increasePage), [page])
+
+    return { getMoreMovieDict }
 }
