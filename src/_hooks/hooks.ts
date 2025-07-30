@@ -57,6 +57,11 @@ export const useSearchText = () => {
             if (text === searchParams.get("title")) { return }
             const tempTimeoutId = setTimeout(
                 () => {
+                    if (!text) {
+                        setSearchParams({})
+                        return
+                    }
+                    
                     setSearchParams({ title: text })
                 },
                 1000
@@ -69,19 +74,4 @@ export const useSearchText = () => {
     )
 
     return { text, setText, timeoutId }
-}
-
-export const useDarkMode = () => {
-    const classList = document.documentElement.classList
-    
-    const [isDark, setIsDark] = useState(() =>
-        classList.contains('dark')
-    );
-
-    const toggleDarkMode = () => {
-        classList.toggle("dark");
-        setIsDark(classList.contains('dark'));
-    };
-
-    return { isDark, toggleDarkMode }
 }

@@ -5,6 +5,7 @@ export const colorStyle = {
     bgBack: "bg-white dark:bg-black",
     bgFront: "bg-zinc-300 dark:bg-zinc-800",
 
-    borderVivid: "border-zinc-800 dark:border-zinc-600",
-    borderMuted: "border-zinc-600 dark:border-zinc-400",
+    borderVivid: "border-zinc-600 dark:border-zinc-400",
+    borderMuted: "border-zinc-400 dark:border-zinc-600",
 }
+

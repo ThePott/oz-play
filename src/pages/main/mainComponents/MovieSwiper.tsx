@@ -60,9 +60,9 @@ const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardIn
       {!isLoading &&
         <Swiper
           modules={[Navigation]}
-          centeredSlides
           slidesPerView="auto"
           spaceBetween={100}
+          centeredSlides
           centerInsufficientSlides
           pagination={{ clickable: true }}
           onSwiper={(swiper: SwiperType) => { swiperRef.current = swiper }}

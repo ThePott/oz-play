@@ -1,11 +1,8 @@
 import { axiosMovie } from "./axiosSettings"
-const apiReadAccessToken = import.meta.env.VITE_API_READ_ACCESS_TOKEN
+import { keyUrlDictArray, makeGenreUrl, genreDictArray } from "../_constants/constants"
 
 const getJsonPromise = async (url: string, targetArray: string[]) => {
-    const response = await axiosMovie.get(
-        url,
-        { headers: { Authorization: `Bearer ${apiReadAccessToken}` } }
-    )
+    const response = await axiosMovie.get(url)
     const json = response.data
 
     if (targetArray.length === 0) { return json }
@@ -16,7 +13,7 @@ const getJsonPromise = async (url: string, targetArray: string[]) => {
 
 const makePagedUrl = (page: number, query: string) => {
     if (!query) {
-        return `https://api.themoviedb.org/3/discover/movie?include_adult=false&certification.lte=19&certification_country=KR&&language=ko&sort_by=popularity&page=${page}.desc`
+        return `https://api.themoviedb.org/3/discover/movie?include_adult=false&certification.lte=19&certification_country=KR&language=ko&sort_by=popularity&page=${page}.desc`
     }
 
     const trimmedQuery = query.trim()
@@ -40,10 +37,14 @@ export const getMovieALot = async (pageLength: number, setMovieArray: (movieArra
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko&append_to_response=credits,release_dates,videos,recommendations`
-    const response = await axiosMovie.get(
-        url,
-        { headers: { Authorization: `Bearer ${apiReadAccessToken}` } }
-    )
+    const response = await axiosMovie.get(url)
     const movieDetailData = response.data
     setSelectedMovie(movieDetailData)
+}
+
+export const getVariousMovieArray = async () => {
+    const result = keyUrlDictArray.reduce(async (acc: Record<string, any>, cur) => {
+        acc[cur.key] = await axiosMovie.get(cur.url)
+    }, {})
+    console.log("---- result:", result)
 }

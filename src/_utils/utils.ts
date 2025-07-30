@@ -5,6 +5,17 @@ export const filterOnlySafe = (movieCardInfoArray: MovieCardInfo[]) => {
     return filteredArray
 }
 
-export const isSystemDark = () => {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
+export const makeButtonSx = (variant: "OUTLINED" | "TEXT", isDark: boolean) => {
+    const sx = {
+        fontSize: "16px",
+        fontWeight: 600,
+        color: isDark ? "oklch(0.75 0 0)" : "oklch(0.15 0 0)",
+    }
+    if (variant === "TEXT") { return sx }
+
+    const borderSx = {
+        borderColor: isDark ? "oklch(0.45 0 0)" : "oklch(0.45 0 0)"
+    }
+    return { ...sx, ...borderSx }
 }
