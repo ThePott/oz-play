@@ -1,6 +1,9 @@
 import { Skeleton } from "@mui/material"
+import useMovieStore from "../../../_store/store"
 
-const CategoryTitle = ({text, isLoading}: {text: string, isLoading: boolean}) => {
+const CategoryTitle = ({text}: {text: string}) => {
+    const isLoading = useMovieStore((state) => state.isLoading)
+
     if (isLoading) {
         return <Skeleton variant="rectangular" sx={{borderRadius: "12px"}} height={32} width={232} className="mt-12 mb-6" />
     }

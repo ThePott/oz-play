@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import "./customSwiper.css";
 import MovieCard from './MovieCard';
+import useMovieStore from '../../../_store/store';
 
 const sxBase = {
   color: "oklch(1 0 0)",
@@ -48,10 +49,11 @@ const MovieSwiperPagination = React.memo(({ activeIndex, movieArray, swiperRef }
   )
 })
 
-const MovieSwiper = React.memo(({ movieArray, isLoading }: { movieArray: any[], isLoading: boolean }) => {
+const MovieSwiper = React.memo(({ movieArray }: { movieArray: any[] }) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
+  const isLoading = useMovieStore((state) => state.isLoading)
 
 
   return (

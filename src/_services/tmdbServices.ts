@@ -48,16 +48,16 @@ export const getVariousMovieArray = async () => {
     console.log("---- result:", result)
 }
 
-export const getMovieDict = async (page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void) => {
+export const getMovieDict = async (page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void, setIsLoading?: (isLoading: boolean) => void) => {
+    if (setIsLoading) { setIsLoading(true) }
+
     const url = makePagedUrl(page, query)
     const json = await getJsonPromise(url, ["results"])
     // debugger
     const newMovieDict = json.reduce((acc: MovieDict, cur: any) => {
-        if (movieDict[cur.id]) { 
-            return acc 
+        if (movieDict[cur.id]) {
+            return acc
         }
-        
-        // if (cur.id === 575265 || cur.id === "575265") {debugger}
 
         const pageIncludedDict = { ...cur, page }
         acc[cur.id] = pageIncludedDict
@@ -67,5 +67,5 @@ export const getMovieDict = async (page: number, query: string, movieDict: Movie
     addToMovieDict(newMovieDict)
     increasePage()
 
-    // debugger
+    if (setIsLoading) { setIsLoading(false) }
 }

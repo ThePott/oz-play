@@ -50,10 +50,15 @@ interface MovieState {
     page: number
     increasePage: () => void
     resetPage: () => void
+
+    isLoading: boolean
+    setIsLoading: (isLoading: boolean) => void
+    error: any
+    setError: (error: any) => void
 }
 
-const useMovieStore = create<MovieState>()(
-    persist((set) => ({
+const useMovieStore = create<MovieState>()(persist(
+    (set) => ({
         movieDict: {},
         setMovieDict(movieDict) { set({ movieDict }) },
         addToMovieDict(movieDict) {
@@ -116,13 +121,18 @@ const useMovieStore = create<MovieState>()(
                 return { page: state.page + 1 }
             })
         },
-        resetPage() { set({ page: 1 }) }
+        resetPage() { set({ page: 1 }) },
+
+        isLoading: false,
+        setIsLoading(isLoading) { set({ isLoading }) },
+        //------------------------아직은 따로 핸들링을 안 함------------------
+        error: null,
+        setError(error) { set({ error }) }
     }),
-        {
-            name: 'oz-movie-app-user',
-            partialize: (state) => ({ user: state.user, }),
-        }
-    )
-)
+    {
+        name: 'oz-movie-app-user',
+        partialize: (state) => ({ user: state.user, }),
+    }
+))
 
 export default useMovieStore

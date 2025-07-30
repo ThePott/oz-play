@@ -1,8 +1,11 @@
 import { Box, Button, Skeleton } from '@mui/material'
 import MovieCard from './MovieCard'
 import { useBottomAdd, useMovieDictAdd } from '../../../_hooks/hooks'
+import useMovieStore from '../../../_store/store'
 
-const MovieCardGrid = ({ movieArray, isLoading }: { movieArray: any[], isLoading: boolean }) => {
+const MovieCardGrid = ({ movieArray }: { movieArray: any[] }) => {
+  const isLoading = useMovieStore((state) => state.isLoading)
+
   const { getMoreMovieDict } = useMovieDictAdd()
   const { bottomRef } = useBottomAdd()
 

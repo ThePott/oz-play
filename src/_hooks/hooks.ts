@@ -157,10 +157,11 @@ export const useMovieDictSet = () => {
     const query = searchParams.get("title") ?? ""
     const movieDict = useMovieStore((state) => state.movieDict)
     const setMovieDict = useMovieStore((state) => state.setMovieDict)
+    const setIsLoading = useMovieStore((state) => state.setIsLoading)
 
     useEffect(() => {
         console.log("---- fetch from basic")
-        getMovieDict(page, query, movieDict, setMovieDict, increasePage)
+        getMovieDict(page, query, movieDict, setMovieDict, increasePage, setIsLoading)
     }, [query])
 }
 
