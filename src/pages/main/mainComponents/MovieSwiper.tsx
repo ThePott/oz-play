@@ -6,7 +6,6 @@ import { Swiper as SwiperType } from "swiper";
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-// import type { MovieCardInfo } from '../../../_interfaces/interfaces';
 import "./customSwiper.css";
 import MovieCard from './MovieCard';
 
@@ -38,8 +37,8 @@ const NextButton = React.memo(({ swiperRef }: { swiperRef: React.RefObject<Swipe
   );
 })
 
-const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swiperRef }: { activeIndex: number, movieCardInfoArray: any[], swiperRef: React.RefObject<SwiperType | null> }) => {
-  const paginationText = `${activeIndex + 1} / ${movieCardInfoArray.length}`
+const MovieSwiperPagination = React.memo(({ activeIndex, movieArray, swiperRef }: { activeIndex: number, movieArray: any[], swiperRef: React.RefObject<SwiperType | null> }) => {
+  const paginationText = `${activeIndex + 1} / ${movieArray.length}`
   return (
     <Box className="flex gap-3 items-center mt-3">
       <PrevButton swiperRef={swiperRef} />
@@ -49,7 +48,7 @@ const MovieSwiperPagination = React.memo(({ activeIndex, movieCardInfoArray, swi
   )
 })
 
-const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardInfoArray: any[], isLoading: boolean }) => {
+const MovieSwiper = React.memo(({ movieArray, isLoading }: { movieArray: any[], isLoading: boolean }) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
@@ -68,7 +67,7 @@ const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardIn
           onSwiper={(swiper: SwiperType) => { swiperRef.current = swiper }}
           onSlideChange={(swiper: SwiperType) => { setActiveIndex(swiper.activeIndex) }}>
 
-          {movieCardInfoArray.map((movieCardInfo, index) => (
+          {movieArray.map((movieCardInfo, index) => (
             <SwiperSlide>
               <MovieCard key={index} variant='BIG'  movieCardInfo={movieCardInfo} />
             </SwiperSlide>
@@ -78,7 +77,7 @@ const MovieSwiper = React.memo(({ movieCardInfoArray, isLoading }: { movieCardIn
       }
       {isLoading && <Skeleton variant='rectangular' height={600} />}
 
-      {!isLoading && <MovieSwiperPagination activeIndex={activeIndex} movieCardInfoArray={movieCardInfoArray} swiperRef={swiperRef} />}
+      {!isLoading && <MovieSwiperPagination activeIndex={activeIndex} movieArray={movieArray} swiperRef={swiperRef} />}
       {isLoading && <Skeleton variant='rectangular' sx={{borderRadius: "12px"}} height={44} width={162} className="mt-3" />}
     </Box>
   );

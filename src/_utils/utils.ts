@@ -1,4 +1,4 @@
-// import type { MovieCardInfo } from "../_interfaces/interfaces";
+import type { MovieDict } from "../_store/store"
 
 export const filterOnlySafe = (movieCardInfoArray: any[]) => {
     const filteredArray = movieCardInfoArray.filter((movieCardInfo) => movieCardInfo.overview)
@@ -18,4 +18,14 @@ export const makeButtonSx = (variant: "OUTLINED" | "TEXT", isDark: boolean) => {
         borderColor: isDark ? "oklch(0.45 0 0)" : "oklch(0.45 0 0)"
     }
     return { ...sx, ...borderSx }
+}
+
+export const sortMovieDict = (movieDict: MovieDict): any[] => {
+    const movieArray = Object.values(movieDict)
+    movieArray.sort((a, b) => {
+        if (a.page !== b.page) { return a.page - b.page }
+
+        return b.popularity - a.popularity;
+    })
+    return movieArray
 }
