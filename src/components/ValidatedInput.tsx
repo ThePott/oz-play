@@ -1,6 +1,5 @@
 import { TextField } from '@mui/material'
 import React, { useState } from 'react'
-import useMovieStore from '../_store/store'
 
 
 const makeInputProps = (type: "EMAIL" | "NAME" | "PASSWORD1" | "PASSWORD2") => {
@@ -31,16 +30,28 @@ const makeHelperText = (type: "EMAIL" | "NAME" | "PASSWORD1" | "PASSWORD2") => {
 
 
 
-export const ValidatedInput = ({ type }: { type: "EMAIL" | "NAME" | "PASSWORD1" | "PASSWORD2" }) => {
+export const ValidatedInput = ({ type, compareValue, onValueChange }: { type: "EMAIL" | "NAME" | "PASSWORD1" | "PASSWORD2", compareValue?: string, onValueChange?: (value: string) => void }) => {
   const [helperText, setHelperText] = useState<string>("")
 
   const props = makeInputProps(type)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (type === "PASSWORD1") {
+      const value = event.target.value
+      onValueChange?.(value)
+    }
+
     if (!event.target.value) {
       setHelperText("")
       return
     }
+
+    if (type === "PASSWORD2" && compareValue !== undefined && event.target.value !== compareValue) {
+      event.target.setCustomValidity("비밀번호가 일치하지 않아요")
+    } else {
+      event.target.setCustomValidity("")
+    }
+
     const isValid = event.target.checkValidity()
     if (isValid) {
       setHelperText("")

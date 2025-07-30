@@ -7,11 +7,12 @@ import { ValidatedInput } from '../../components/ValidatedInput';
 
 
 const SignupPage = () => {
+    const [password1Value, setPassword1Value] = useState("")
+
     const setUser = useMovieStore((state) => state.setUser)
     const navigate = useNavigate()
 
     const user = useMovieStore((state) => state.user)
-    const [password2HelperText, setPassword2HelperText] = useState("")
 
     useEffect(
         () => {
@@ -32,20 +33,19 @@ const SignupPage = () => {
         const password1 = (elements.namedItem("password1") as HTMLInputElement).value
         const password2 = (elements.namedItem("password2") as HTMLInputElement).value
 
-        if (password1 !== password2) {
-            setPassword2HelperText("비밀번호가 일치하지 않아요")
-            return
-        }
-
-
         signUp(name, email, password1, setUser)
     }
     const typeArray = ["NAME", "EMAIL", "PASSWORD1", "PASSWORD2"] as const
 
     return (
         <Box component="form" className="flex flex-col gap-3" onSubmit={handleSubmit}>
-            {typeArray.map((type) => <ValidatedInput key={type} type={type} />)}
-            {password2HelperText && <p>{password2HelperText}</p>}
+            {typeArray.map((type) =>
+                <ValidatedInput
+                    key={type} type={type}
+                    compareValue={type === "PASSWORD2" ? password1Value : undefined}
+                    onValueChange={type === "PASSWORD1" ? setPassword1Value : undefined}
+                />)
+            }
             <Button type="submit">회원가입</Button>
         </Box>
     )
