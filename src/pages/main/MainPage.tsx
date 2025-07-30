@@ -9,12 +9,12 @@ import useMovieStore from '../../_store/store'
 const MainPage = () => {
   const [searchParams, _setSearchParams] = useSearchParams()
   const setUser = useMovieStore((state) => state.setUser)
-  
+  const setProviderCredentialResponse = useMovieStore((state) => state.setProviderCredentialResponse)  
   useMovieGet()
 
   useEffect(
     () => {
-      getUser(setUser)
+      getUser(setUser, setProviderCredentialResponse)
     },
     []
   )

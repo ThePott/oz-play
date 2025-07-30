@@ -5,13 +5,36 @@ import React, { useState } from 'react'
 const makeInputProps = (type: "EMAIL" | "NAME" | "PASSWORD1" | "PASSWORD2") => {
   switch (type) {
     case "NAME":
-      return { label: "이름", id: "name", name: "name", type: "text", inputProps: { pattern: "^[가-힣a-zA-Z0-9]+$", minLength: 2, maxLength: 8 } }
+      return {
+        label: "이름",
+        id: "name",
+        name: "name",
+        type: "text",
+        inputProps: { pattern: "^[가-힣a-zA-Z0-9]+$", minLength: 2, maxLength: 8 }
+      }
     case "EMAIL":
-      return { label: "이메일", id: "email", name: "email", type: "email" }
+      return {
+        label: "이메일",
+        id: "email",
+        name: "email",
+        type: "email"
+      }
     case "PASSWORD1":
-      return { label: "비밀번호", id: "password1", name: "password1", type: "password", inputProps: { minLength: 8, pattern: `^[a-zA-Z0-9]+$` } }
+      return {
+        label: "비밀번호",
+        id: "password1",
+        name: "password1",
+        type: "password",
+        inputProps: { minLength: 8, pattern: `^[a-zA-Z0-9]+$`, autoComplete: "off" }
+      }
     case "PASSWORD2":
-      return { label: "비밀번호 확인", id: "password2", name: "password2", type: "password" }
+      return {
+        label: "비밀번호 확인",
+        id: "password2",
+        name: "password2",
+        type: "password",
+        inputProps: { autoComplete: "off" }
+      }
   }
 }
 

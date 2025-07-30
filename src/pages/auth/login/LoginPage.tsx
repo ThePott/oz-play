@@ -1,10 +1,10 @@
 import { Box, Button } from "@mui/material"
 import { useNavigate } from "react-router"
-import { signInWithEmail } from "../../_database/supabase"
-import useMovieStore from "../../_store/store"
-import GoogleLoginButton from "../../components/GoogleLoginButton"
-import { ValidatedInput } from "../../components/ValidatedInput"
 import { useEffect } from "react"
+import { signInWithEmail } from "../../../_database/supabase"
+import useMovieStore from "../../../_store/store"
+import GoogleLoginButton from "../../../components/GoogleLoginButton"
+import { ValidatedInput } from "../../../components/ValidatedInput"
 
 const LoginPage = () => {
   const setUser = useMovieStore((state) => state.setUser)

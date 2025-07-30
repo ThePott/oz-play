@@ -1,9 +1,9 @@
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { signUp } from '../../_database/supabase';
-import useMovieStore from '../../_store/store';
-import { ValidatedInput } from '../../components/ValidatedInput';
+import { signUp } from '../../../_database/supabase';
+import useMovieStore from '../../../_store/store';
+import { ValidatedInput } from '../../../components/ValidatedInput';
 
 
 const SignupPage = () => {
