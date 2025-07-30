@@ -31,7 +31,6 @@ const SignupPage = () => {
         const name = (elements.namedItem("name") as HTMLInputElement).value
         const email = (elements.namedItem("email") as HTMLInputElement).value
         const password1 = (elements.namedItem("password1") as HTMLInputElement).value
-        const password2 = (elements.namedItem("password2") as HTMLInputElement).value
 
         signUp(name, email, password1, setUser)
     }
