@@ -36,6 +36,9 @@ interface MovieState {
 
     loginError: any
     setLoginError: (loginError: any) => void
+
+    providerCredentialResponse: any
+    setProviderCredentialResponse: (providerCredentialResponse: any) => void
 }
 
 const useMovieStore = create<MovieState>()(
@@ -80,6 +83,9 @@ const useMovieStore = create<MovieState>()(
 
             loginError: null,
             setLoginError(loginError) { set({ loginError }) },
+
+            providerCredentialResponse: null,
+            setProviderCredentialResponse(providerCredentialResponse) { set({ providerCredentialResponse }) },
         }),
         {
             name: 'oz-movie-app-user',

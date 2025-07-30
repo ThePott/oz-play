@@ -1,6 +1,6 @@
 import FaceIcon from '@mui/icons-material/Face';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import { Box, Menu, MenuItem } from '@mui/material';
+import { Box, CircularProgress, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { signOut } from './_database/supabase';
@@ -13,14 +13,15 @@ const ProfileBox = () => {
 
   const user = useMovieStore((state) => state.user)
   const setUser = useMovieStore((state) => state.setUser)
-  const googleCredentialResponse = useMovieStore((state) => state.googleCredentialResponse)
-  const setGoogleCredentialResponse = useMovieStore((state) => state.setGoogleCredentialResponse)
+  const providerCredentialResponse = useMovieStore((state) => state.providerCredentialResponse)
+  // const setGoogleCredentialResponse = useMovieStore((state) => state.setGoogleCredentialResponse)
 
-  const isLoggedIn = user || googleCredentialResponse
+  const isWaitingLoginResponse = providerCredentialResponse && !user
+  const isLoggedIn = user
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("----user:", user)
-    
+
     if (!isLoggedIn) {
       navigate("/login")
       return
@@ -33,7 +34,11 @@ const ProfileBox = () => {
   const handleLogoutClick = () => {
     setAnchorEl(null)
     user && signOut(setUser)
-    googleCredentialResponse && setGoogleCredentialResponse(null)
+    // googleCredentialResponse && setGoogleCredentialResponse(null)
+  }
+  const handleMyPageClick = () => {
+    setAnchorEl(null)
+    navigate("/mypage")
   }
 
 
@@ -47,6 +52,7 @@ const ProfileBox = () => {
     <>
       <Box className={profileStyle} onClick={handleClick}>
         {isLoggedIn && <FaceIcon className="text-white" fontSize='large' />}
+        {isWaitingLoginResponse && <CircularProgress />}
       </Box>
 
       {isLoggedIn &&
@@ -55,10 +61,17 @@ const ProfileBox = () => {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}>
+
+          <MenuItem onClick={handleMyPageClick} className="gap-3">
+            <FaceIcon className="text-white" fontSize='large' />
+            <p className="text-xl">My Page</p>
+          </MenuItem>
+
           <MenuItem onClick={handleLogoutClick} className="gap-3">
             <LogoutRoundedIcon fontSize="large" />
             <p className="text-xl">Logout</p>
           </MenuItem>
+
         </Menu>
       }
     </>

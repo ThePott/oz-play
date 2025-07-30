@@ -61,24 +61,21 @@ export const signOut = async (setUser: (user: any | null) => void) => {
     setUser(null)
 }
 
-export const singInWithProvider = async (provider: Provider, setUser: (user: any | null) => void, setLoginError: (loginError: any) => void) => {
+export const singInWithProvider = async (provider: Provider, setProviderCredentialResponse: (providerCredentialResponse: any) => void, setLoginError: (loginError: any) => void) => {
     const { data, error } = await supabase.auth.signInWithOAuth({ provider })
     console.log("---- data:", data, "---- error:", error)
-    setUser(data)
-
+    setProviderCredentialResponse(data)
+    
     if (error) {
         console.error("---- ERROR OCCURRED:", error)
         setLoginError(error)
         return
     }
-
-    const { data: { user } } = await supabase.auth.getUser()
-    setUser(user)
-    // setUser(data)
     setLoginError(null)
 }
 
-export const getUser = async (setUser: (user: any | null) => void) => {
+export const getUser = async (setUser: (user: any | null) => void, setProviderCredentialResponse: (providerCredentialResponse: any) => void) => {
     const { data: { user } } = await supabase.auth.getUser()
     setUser(user)
+    setProviderCredentialResponse(null)
 }

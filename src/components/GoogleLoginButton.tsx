@@ -1,63 +1,17 @@
-import { Box } from '@mui/material'
-import "./googleLoginButton.css"
+import "./googleLoginButton.css";
 
-const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
-
-// const GoogleLoginButton = () => {
-//     return (
-//         <Box className="w-fit">
-//             <div id="g_id_onload"
-//                 data-client_id={clientId}
-//                 data-context="signin"
-//                 data-ux_mode="popup"
-//                 data-itp_support="true">
-//             </div>
-
-//             <div className="g_id_signin"
-//                 data-type="standard"
-//                 data-shape="rectangular"
-//                 data-theme="outline"
-//                 data-text="signin_with"
-//                 data-size="large"
-//                 data-logo_alignment="left">
-//             </div>
-//         </Box>
-//     )
-// }
-
-// export default GoogleLoginButton
-
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import useMovieStore from '../_store/store';
-import { useNavigate } from 'react-router';
 import { singInWithProvider } from '../_database/supabase';
+import useMovieStore from '../_store/store';
 
 const GoogleLoginButton = () => {
-    // const setGoogleCredentialResponse = useMovieStore((state) => state.setGoogleCredentialResponse)
-    // const navigate = useNavigate()
-    const setUser = useMovieStore((state) => state.setUser)
+    const setProviderCredentialResponse = useMovieStore((state) => state.setProviderCredentialResponse)
     const setLoginError = useMovieStore((state) => state.setLoginError)
 
     const handleClick = () => {
-        singInWithProvider("google", setUser, setLoginError)
+        singInWithProvider("google", setProviderCredentialResponse, setLoginError)
     }
     return (
         <>
-            {/* <GoogleOAuthProvider clientId={clientId}>
-                <GoogleLogin
-                    onSuccess={(res) => {
-                        console.log(res);
-                        setGoogleCredentialResponse(res)
-                        navigate("/")
-                    }}
-                    onError={() => {
-                        console.error("---- One tap login failed")
-                        // console.log(error);
-                        return
-                    }}
-                />
-            </GoogleOAuthProvider> */}
             <button className="gsi-material-button" onClick={handleClick}>
                 <div className="gsi-material-button-state"></div>
                 <div className="gsi-material-button-content-wrapper">
