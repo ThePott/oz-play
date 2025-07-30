@@ -40,8 +40,12 @@ export const signInWithEmail = async (email: string, password: string, setUser: 
         return
     }
 
-    setUser(data.user)
+    // setUser(data.user)
     setLoginError(null)
+
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
+    console.log("---- user from get:", user)
 }
 
 export const signOut = async (setUser: (user: any | null) => void) => {
@@ -60,12 +64,21 @@ export const signOut = async (setUser: (user: any | null) => void) => {
 export const singInWithProvider = async (provider: Provider, setUser: (user: any | null) => void, setLoginError: (loginError: any) => void) => {
     const { data, error } = await supabase.auth.signInWithOAuth({ provider })
     console.log("---- data:", data, "---- error:", error)
+    setUser(data)
+
     if (error) {
         console.error("---- ERROR OCCURRED:", error)
         setLoginError(error)
         return
     }
 
-    setUser(data)
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
+    // setUser(data)
     setLoginError(null)
+}
+
+export const getUser = async (setUser: (user: any | null) => void) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
 }

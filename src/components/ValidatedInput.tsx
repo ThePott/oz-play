@@ -64,7 +64,7 @@ export const ValidatedInput = ({ type, compareValue, onValueChange }: { type: "E
 
   return (
     <>
-      <TextField key={type} required helperText={helperText} {...props} onChange={handleChange} />
+      <TextField required helperText={helperText} {...props} onChange={handleChange} />
     </>
   )
 }
