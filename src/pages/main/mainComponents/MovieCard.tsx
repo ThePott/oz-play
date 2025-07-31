@@ -27,11 +27,10 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: any, variant: "N
   const linkVariantStyle = `${linkBaseStyle} ${variant === "NORMAL" ? linkNormalStyle : linkBigStyle}`
 
   return (
-    // <Link to={`/detail/${movieCardInfo.id}`}
-    //   className={linkVariantStyle}
-    //   onMouseEnter={() => setIsMouseOver(true)}
-    //   onMouseLeave={() => setIsMouseOver(false)}>
-    <Box onClick={() => console.log("---- card info:", movieCardInfo.page, movieCardInfo.id)} className={linkVariantStyle}>
+    <Link to={`/detail/${movieCardInfo.id}`}
+      className={linkVariantStyle}
+      onMouseEnter={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}>
       <img src={posterSrc} alt={`${movieCardInfo.title}__poster`} className={`transition ${isMouseOver && "scale-105"} duration-500`} />
 
       <Box className={`transition absolute bottom-0 ${colorStyle.bgFront} ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>
@@ -42,8 +41,7 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: any, variant: "N
         }}>{movieCardInfo.title}</Typography>
         <VoteText movieCardInfo={movieCardInfo} />
       </Box>
-    </Box>
-    // </Link>
+    </Link>
   )
 }
 
