@@ -106,48 +106,48 @@ const intersectionCallback = (entries: any, callback: any) => {
     });
 }
 
-export const useBottomAppendation = () => {
-    const [searchParams, _setSearchParams] = useSearchParams()
-    const page = useMovieStore((state) => state.page)
-    const increasePage = useMovieStore((state) => state.increasePage)
-    const resetPage = useMovieStore((state) => state.resetPage)
-    const appendMovieArray = useMovieStore((state) => state.appendMovieArray)
-    const query = searchParams.get("title") ?? ""
-    const bottomRef = useRef(null);
+// export const useBottomAppendation = () => {
+//     const [searchParams, _setSearchParams] = useSearchParams()
+//     const page = useMovieStore((state) => state.page)
+//     const increasePage = useMovieStore((state) => state.increasePage)
+//     // const resetPage = useMovieStore((state) => state.resetPage)
+//     const appendMovieArray = useMovieStore((state) => state.appendMovieArray)
+//     const query = searchParams.get("title") ?? ""
+//     const bottomRef = useRef(null);
 
-    const startRef = useRef<number>(Number(new Date()))
+//     const startRef = useRef<number>(Number(new Date()))
 
 
-    const callback = () => {
-        const now = Number(new Date())
+//     const callback = () => {
+//         const now = Number(new Date())
 
-        if ((now - startRef.current) < 2000) { return }
+//         if ((now - startRef.current) < 2000) { return }
 
-        // getMovieALot(page, appendMovieArray, query, increasePage)
-        startRef.current = Number(new Date())
-    }
+//         // getMovieALot(page, appendMovieArray, query, increasePage)
+//         startRef.current = Number(new Date())
+//     }
 
-    useEffect(() => {
-        console.log("--- new page in effect:", page)
-        const observer = new IntersectionObserver(
-            (entries) => intersectionCallback(entries, callback), {
-            threshold: 0.75
-        });
+//     useEffect(() => {
+//         console.log("--- new page in effect:", page)
+//         const observer = new IntersectionObserver(
+//             (entries) => intersectionCallback(entries, callback), {
+//             threshold: 0.75
+//         });
 
-        if (bottomRef.current) {
-            observer.observe(bottomRef.current);
-        }
+//         if (bottomRef.current) {
+//             observer.observe(bottomRef.current);
+//         }
 
-        return () => {
-            console.log("---- clean up observer for:", page)
-            observer.disconnect()
-        }
-    }, [page])
+//         return () => {
+//             console.log("---- clean up observer for:", page)
+//             observer.disconnect()
+//         }
+//     }, [page])
 
-    useEffect(() => { return () => resetPage() }, [query])
+//     // useEffect(() => { return () => resetPage() }, [query])
 
-    return { bottomRef }
-}
+//     return { bottomRef }
+// }
 
 /** 메인 페이지에서 호출 -> 쿼리 있든 없든 대응 */
 export const useMovieDictSet = () => {
@@ -160,7 +160,7 @@ export const useMovieDictSet = () => {
     const setIsLoading = useMovieStore((state) => state.setIsLoading)
 
     useEffect(() => {
-        console.log("---- fetch from basic")
+        // console.log("---- fetch from basic:", page, query)
         getMovieDict(page, query, movieDict, setMovieDict, increasePage, setIsLoading)
     }, [query])
 }
@@ -195,6 +195,8 @@ export const useBottomAdd = () => {
     const addToMovieDict = useMovieStore((state) => state.addToMovieDict)
 
     const callbackIntersection = useCallback(() => {
+        if (Object.values(movieDict).length === 0) { return }
+        
         if (page <= 2) {
             getMovieDict(page, query, movieDict, addToMovieDict, increasePage)
             startRef.current = Number(new Date())
@@ -227,3 +229,9 @@ export const useBottomAdd = () => {
 
     return { bottomRef }
 }
+
+// export const useAddToFavorites = () => {
+//     const 
+
+//     const toggleFavorite = useCallback(() => {}, [])
+// }

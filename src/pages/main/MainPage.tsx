@@ -11,12 +11,17 @@ const MainPage = () => {
 
   const setUser = useMovieStore((state) => state.setUser)
   const setProviderCredentialResponse = useMovieStore((state) => state.setProviderCredentialResponse)
+  const resetPage = useMovieStore((state) => state.resetPage)
+  const setMovieDict = useMovieStore((state) => state.setMovieDict)
 
   useMovieDictSet()
 
-
   useEffect(() => {
     getUser(setUser, setProviderCredentialResponse)
+    return () => {
+      resetPage()
+      setMovieDict({})
+    }
   }, [])
 
   if (searchParams.get("title")) { return <SearchResultContainer /> }

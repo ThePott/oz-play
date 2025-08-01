@@ -1,4 +1,5 @@
 import { Box } from "@mui/material"
+import { useBottomAdd } from "../../../_hooks/hooks"
 import useMovieStore from "../../../_store/store"
 import { sortMovieDict } from "../../../_utils/utils"
 import CategoryTitle from "./CategoryTitle"
@@ -14,6 +15,8 @@ const MainContainer = () => {
     .sort((a, b) => b.vote_average - a.vote_average)
     .slice(0, 10)
 
+  const { bottomRef } = useBottomAdd()
+
   return (
     <Box
       sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }}
@@ -27,6 +30,7 @@ const MainContainer = () => {
 
       <MovieCardGrid movieArray={movieArray} />
 
+      <Box ref={bottomRef} />
     </Box>
   )
 }

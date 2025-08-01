@@ -53,7 +53,6 @@ export const getMovieDict = async (page: number, query: string, movieDict: Movie
 
     const url = makePagedUrl(page, query)
     const json = await getJsonPromise(url, ["results"])
-    // debugger
     const newMovieDict = json.reduce((acc: MovieDict, cur: any) => {
         if (movieDict[cur.id]) {
             return acc
@@ -63,9 +62,7 @@ export const getMovieDict = async (page: number, query: string, movieDict: Movie
         acc[cur.id] = pageIncludedDict
         return acc
     }, {})
-
     addToMovieDict(newMovieDict)
     increasePage()
-
     if (setIsLoading) { setIsLoading(false) }
 }

@@ -65,7 +65,7 @@ export const singInWithProvider = async (provider: Provider, setProviderCredenti
     const { data, error } = await supabase.auth.signInWithOAuth({ provider })
     console.log("---- data:", data, "---- error:", error)
     setProviderCredentialResponse(data)
-    
+
     if (error) {
         console.error("---- ERROR OCCURRED:", error)
         setLoginError(error)
@@ -78,4 +78,25 @@ export const getUser = async (setUser: (user: any | null) => void, setProviderCr
     const { data: { user } } = await supabase.auth.getUser()
     setUser(user)
     setProviderCredentialResponse(null)
+}
+
+export const addToFavorites = async (user_id: string, movie_id: number) => {
+    const { error: error1 } = await supabase
+        .from('favorites')
+        .insert({ user_id, movie_id })
+    console.error("---- error:", user_id, "/", movie_id, "/", error1)
+
+    const { data, error } = await supabase
+        .from('favorites')
+        .select()
+    console.log("---- res:", data, error)
+
+    const { error: dummyError } = await supabase
+        .from('dummy')
+        .insert({ message: "yayaya" })
+    console.error("---- dummy error:", dummyError)
+
+    // const { data, error } = await supabase
+    //     .from('favorites')
+    //     .select()
 }

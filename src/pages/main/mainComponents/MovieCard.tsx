@@ -1,4 +1,3 @@
-// import type { MovieCardInfo } from '../../../_interfaces/interfaces'
 import { imageBaseUrl } from '../../../_constants/constants'
 import { Link } from 'react-router'
 import { Box, Typography } from '@mui/material'
