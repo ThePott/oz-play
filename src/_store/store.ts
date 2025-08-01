@@ -22,9 +22,6 @@ interface MovieState {
     setMovieDict: (movieDict: MovieDict) => void
     addToMovieDict: (movieDict: MovieDict) => void
 
-    // movieArray: any
-    // setMovieArray: (movieArray: any) => void
-    // appendMovieArray: (movieArray: any) => void
     selectedMovie: any
     setSelectedMovie: (selectedMovie: any) => void
 
@@ -49,6 +46,10 @@ interface MovieState {
     setIsLoading: (isLoading: boolean) => void
     error: any
     setError: (error: any) => void
+
+    favoriteSet: Set<number>
+    setFavoriteSet: (favoriteSet: Set<number>) => void
+    toggleFavorite: (movieId: number) => void
 }
 
 const useMovieStore = create<MovieState>()(persist(
@@ -65,29 +66,11 @@ const useMovieStore = create<MovieState>()(persist(
             })
         },
 
-        // /** DEPRECATED */
-        // movieArray: [],
-        // /** DEPRECATED */
-        // setMovieArray(movieArray) {
-        //     set((state) => {
-        //         console.log("---- setting...")
-        //         return { movieArray }
-        //     }
-        //     )
-        // },
-        // /** DEPRECATED */
-        // appendMovieArray(movieArray) {
-        //     set((state) => {
-        //         return { movieArray: [...state.movieArray, ...movieArray] }
-        //     })
-        // },
+
         selectedMovie: null,
         setSelectedMovie(selectedMovie) {
             set({ selectedMovie })
         },
-
-        // searchedMovieArray: null,
-        // setSearchedMovieArray(searchedMovieArray) { set({ searchedMovieArray }) },
 
         isDark: false,
         initializeIsDark() {
@@ -105,13 +88,6 @@ const useMovieStore = create<MovieState>()(persist(
                 return { isDark: !state.isDark }
             })
         },
-
-        // movieArrayDict: {},
-        // updateArrayFromDict(key, movieArray) {
-        //     set((state) => {
-        //         return { movieArrayDict: { ...state.movieArrayDict, [key]: movieArray } }
-        //     })
-        // },
 
         user: null,
         setUser(user) { set({ user }) },
@@ -134,7 +110,21 @@ const useMovieStore = create<MovieState>()(persist(
         setIsLoading(isLoading) { set({ isLoading }) },
         //------------------------아직은 따로 핸들링을 안 함------------------
         error: null,
-        setError(error) { set({ error }) }
+        setError(error) { set({ error }) },
+        favoriteSet: new Set<number>([]),
+        setFavoriteSet(favoriteSet) { set({ favoriteSet }) },
+        toggleFavorite(movieId) {
+            set((state) => {
+                const newSet = new Set<number>([...state.favoriteSet])
+                if (state.favoriteSet.has(movieId)) {
+                    newSet.delete(movieId)
+                } else {
+                    newSet.add(movieId)
+                }
+
+                return {favoriteSet: newSet}
+            })
+        }
     }),
     {
         name: 'oz-movie-app-user',

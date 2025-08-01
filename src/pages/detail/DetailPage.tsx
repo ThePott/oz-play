@@ -42,7 +42,7 @@ const DetailPage = () => {
   
   const handleClick = () => {
     if (!user) { return }
-    const user_id = user.identities[0].id
+    const user_id = user.identities[0].user_id
     addToFavorites(user_id, selectedMovie.id)
 
   }
