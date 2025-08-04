@@ -7,7 +7,9 @@ const GoogleLoginButton = () => {
     const setProviderCredentialResponse = useMovieStore((state) => state.setProviderCredentialResponse)
     const setLoginError = useMovieStore((state) => state.setLoginError)
 
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation()
+        event.preventDefault()
         singInWithProvider("google", setProviderCredentialResponse, setLoginError)
     }
     return (

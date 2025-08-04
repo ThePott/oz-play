@@ -23,6 +23,9 @@ interface MovieState {
     setMovieDict: (movieDict: MovieDict) => void
     addToMovieDict: (movieDict: MovieDict) => void
 
+    popularMovieArray: any[]
+    setPopularMovieArray: (popluarMovieArray: any[]) => void
+
     selectedMovie: any
     setSelectedMovie: (selectedMovie: any) => void
 
@@ -72,6 +75,8 @@ const useMovieStore = create<MovieState>()(persist(
             })
         },
 
+        popularMovieArray: [],
+        setPopularMovieArray(popularMovieArray) { set({ popularMovieArray }) },
 
         selectedMovie: null,
         setSelectedMovie(selectedMovie) {

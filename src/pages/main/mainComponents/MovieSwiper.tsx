@@ -49,7 +49,9 @@ const MovieSwiperPagination = React.memo(({ activeIndex, movieArray, swiperRef }
   )
 })
 
-const MovieSwiper = React.memo(({ movieArray }: { movieArray: any[] }) => {
+const MovieSwiper = React.memo(() => {
+  const popularMovieArray = useMovieStore((state) => state.popularMovieArray)
+
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
@@ -69,7 +71,7 @@ const MovieSwiper = React.memo(({ movieArray }: { movieArray: any[] }) => {
           onSwiper={(swiper: SwiperType) => { swiperRef.current = swiper }}
           onSlideChange={(swiper: SwiperType) => { setActiveIndex(swiper.activeIndex) }}>
 
-          {movieArray.map((movieCardInfo, index) => (
+          {popularMovieArray.map((movieCardInfo, index) => (
             <SwiperSlide>
               <MovieCard key={index} variant='BIG'  movieCardInfo={movieCardInfo} />
             </SwiperSlide>
@@ -79,7 +81,7 @@ const MovieSwiper = React.memo(({ movieArray }: { movieArray: any[] }) => {
       }
       {isLoading && <Skeleton variant='rectangular' height={600} />}
 
-      {!isLoading && <MovieSwiperPagination activeIndex={activeIndex} movieArray={movieArray} swiperRef={swiperRef} />}
+      {!isLoading && <MovieSwiperPagination activeIndex={activeIndex} movieArray={popularMovieArray} swiperRef={swiperRef} />}
       {isLoading && <Skeleton variant='rectangular' sx={{borderRadius: "12px"}} height={44} width={162} className="mt-3" />}
     </Box>
   );

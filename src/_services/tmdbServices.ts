@@ -35,11 +35,11 @@ export const getVariousMovieArray = async () => {
     console.log("---- result:", result)
 }
 
-// TODO set is loading은 모든 상황에서 필요할 거 같은데
+/** 무한 스크롤 중에는 is loading이 없어야 한다 */
 export const getMovieDict = async (
-    page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void, 
+    page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void,
     setIsLoading?: (isLoading: boolean) => void,
-    
+
 ) => {
     if (setIsLoading) { setIsLoading(true) }
 
@@ -59,3 +59,8 @@ export const getMovieDict = async (
     if (setIsLoading) { setIsLoading(false) }
 }
 
+export const getPopularMovieArray = async (setPopularMovieArray: (popluarMovieArray: any[]) => void) => {
+    const url = "https://api.themoviedb.org/3/trending/movie/day?language=ko"
+    const json = await getJsonPromise(url, ["results"])
+    setPopularMovieArray(json)
+}

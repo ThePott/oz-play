@@ -10,11 +10,6 @@ const MainContainer = () => {
   const movieDict = useMovieStore((state) => state.movieDict)
   const movieArray = sortMovieDict(movieDict)
 
-  const hotmovieArray = [...movieArray]
-    .filter((movieCardInfo) => movieCardInfo.vote_count > 100)
-    .sort((a, b) => b.vote_average - a.vote_average)
-    .slice(0, 10)
-
   const { bottomRef } = useBottomAdd()
 
   return (
@@ -22,9 +17,9 @@ const MainContainer = () => {
       sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }}
       className="h-full overflow-y-scroll overflow-x-hidden">
 
-      <CategoryTitle text="이번 주 인기작 TOP 10" />
+      <CategoryTitle text="오늘의 화제작 TOP 20" />
 
-      <MovieSwiper movieArray={hotmovieArray} />
+      <MovieSwiper  />
 
       <CategoryTitle text="오직 오즈 플레이에서만" />
 

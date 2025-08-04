@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "react-router"
-import { getDetail, getMovieDict } from "../_services/tmdbServices"
+import { getDetail, getMovieDict, getPopularMovieArray } from "../_services/tmdbServices"
 import useMovieStore from "../_store/store"
 
 
@@ -81,10 +81,11 @@ export const useMovieDictSet = () => {
     const movieDict = useMovieStore((state) => state.movieDict)
     const setMovieDict = useMovieStore((state) => state.setMovieDict)
     const setIsLoading = useMovieStore((state) => state.setIsLoading)
+    const setPopularMovieArray = useMovieStore((state) => state.setPopularMovieArray)
 
     useEffect(() => {
-        // console.log("---- fetch from basic:", page, query)
         getMovieDict(page, query, movieDict, setMovieDict, increasePage, setIsLoading)
+        getPopularMovieArray(setPopularMovieArray)
     }, [query])
 }
 
