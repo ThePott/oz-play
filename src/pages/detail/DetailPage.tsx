@@ -30,12 +30,12 @@ const DetailPage = () => {
   
   if (!selectedMovie) { return null }
   
-  const videoInfo = selectedMovie.videos.results[0]
+  const videoInfo =  selectedMovie.videos ? selectedMovie.videos.results[0] : null
   const backdropPath = selectedMovie.backdrop_path
   const backdropSrc = `${imageBaseUrl}${backdropPath}`
     
   const genreArray = selectedMovie["genres"]
-  const recommendationArray = selectedMovie.recommendations.results
+  const recommendationArray = selectedMovie.recommendations ? selectedMovie.recommendations.results : []
   
   const voteAverage = Math.round(selectedMovie["vote_average"] * 10) / 10
   const voteInfo = `⭐️ ${voteAverage}(${selectedMovie["vote_count"]})`

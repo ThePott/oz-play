@@ -258,7 +258,7 @@ export const useFavoriteMovieDict = () => {
     const favoriteSet = useMovieStore((state) => state.favoriteSet)
     const addToFavoriteMovieDict = useMovieStore((state) => state.addToFavoriteMovieDict)
     const favoriteArray = Array.from(favoriteSet)
-    
+
     useEffect(() => {
         favoriteArray.forEach((movieId) => {
             getDetail(movieId, addToFavoriteMovieDict)

@@ -20,7 +20,7 @@ const MainContainer = () => {
   return (
     <Box
       sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }}
-      className="h-full overflow-scroll">
+      className="h-full overflow-y-scroll overflow-x-hidden">
 
       <CategoryTitle text="이번 주 인기작 TOP 10" />
 

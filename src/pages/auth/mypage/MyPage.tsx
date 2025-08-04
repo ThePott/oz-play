@@ -5,10 +5,14 @@ import useMovieStore from "../../../_store/store"
 import UnauthorizedBox from "./mypageComponents/UnauthorizedBox"
 import { useEffect } from "react"
 import { useFavoriteMovieDict } from "../../../_hooks/hooks"
+import MovieCardGrid from "../../main/mainComponents/MovieCardGrid"
 
 const MyPage = () => {
   const navigate = useNavigate()
   const user = useMovieStore((state) => state.user)
+  const favorteMovieDict = useMovieStore((state) => state.favoriteMovieDict)
+  const favoriteMovieArray = Object.values(favorteMovieDict)
+
   useFavoriteMovieDict()
 
   useEffect(() => {
@@ -30,7 +34,8 @@ const MyPage = () => {
       <img src={metadata.picture} />
       <p>{metadata.name}</p>
 
-      <Button onClick={() => { console.log("---- user:", user) }}>유저 정보 출력</Button>
+      <Button onClick={() => { console.log("---- favorite detail dict:", favorteMovieDict) }}>favorite detail 출력</Button>
+      <MovieCardGrid movieArray={favoriteMovieArray}  />
     </Box>
   )
 }
