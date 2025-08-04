@@ -28,7 +28,9 @@ const MainContainer = () => {
 
       <CategoryTitle text="오직 오즈 플레이에서만" />
 
-      <MovieCardGrid movieArray={movieArray} />
+      <div className="px-3">
+        <MovieCardGrid movieArray={movieArray} />
+      </div>
 
       <Box ref={bottomRef} />
     </Box>

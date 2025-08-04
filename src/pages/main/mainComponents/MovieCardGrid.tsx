@@ -8,14 +8,14 @@ const MovieCardGrid = ({ movieArray }: { movieArray: any[] }) => {
   const dummyArray = [...Array(50).keys()]
   if (isLoading) {
     return (
-      <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
+      <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3">
         {dummyArray.map((_, index) => <Skeleton sx={{ borderRadius: "12px" }} key={index} variant='rectangular' height={300} />)}
       </Box>
     )
   }
 
   return (
-    <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 px-3">
+    <Box className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3">
       {movieArray.map((movieCardInfo, index) => <MovieCard key={index} movieCardInfo={movieCardInfo} variant='NORMAL' />)}
     </Box>
   )
