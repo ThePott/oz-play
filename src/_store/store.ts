@@ -1,20 +1,6 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-// ------------------------- 구조 어떻게 유연하게 만들지 고민해봐야 -----------------------
-interface MovieArrayDict {
-    trendingMovieArray: []
-
-    nowPlayingMovieArray: []
-    upComingMovieArray: []
-    topRatedMovieArray: []
-    trendingTvArray: []
-
-
-
-    movieArray: []
-}
-
 export type MovieDict = Record<number, any>
 export type FavoriteIdDict = Record<number, any>
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import { useSearchParams } from "react-router"
+import { useLocation, useNavigate, useSearchParams } from "react-router"
 import { getDetail, getMovieDict, getPopularMovieArray } from "../_services/tmdbServices"
 import useMovieStore from "../_store/store"
 
@@ -21,6 +21,9 @@ export const useSearchText = () => {
 
     const [text, setText] = useState<string>(searchParams.get("title") ?? "")
     const resetPage = useMovieStore((state) => state.resetPage)
+
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const setSearchParamsNow = useCallback(() => {
         if (timeoutId) {
@@ -50,6 +53,9 @@ export const useSearchText = () => {
                     }
 
                     setSearchParams({ title: text })
+
+                    if (location.pathname === "/") { return }
+                    navigate(`/?title=${text}`)
                 },
                 1000
             )

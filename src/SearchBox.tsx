@@ -1,27 +1,42 @@
 import { Box } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useLocation, useSearchParams } from 'react-router'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router'
 import { colorStyle } from './_constants/colorConstants'
 import { useSearchText } from './_hooks/hooks'
 import MagnifyingGlassIcon from './components/MagnifyingGlassIcon'
 
 const SearchBox = () => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const [searchParams, _setSearchParams] = useSearchParams()
   const { text, setText, setSearchParamsNow } = useSearchText()
+  const location = useLocation()
+  const navigate = useNavigate()
+
   const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)
-  const handleBlur = () => setSearchParamsNow()
+  
+  const handleBlur = () => {
+    setSearchParamsNow()
+    if (location.pathname === "/") { return }
+    navigate(`/?title=${text}`)
+  }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") { return }
     setSearchParamsNow()
+    if (location.pathname === "/") { return }
+    navigate(`/?title=${text}`)
   }
 
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
-  const location = useLocation()
+
   useEffect(() => {
     if (location.pathname !== "/") {
       setText("")
+
+      if (inputRef && inputRef.current) {
+        inputRef.current.value = ""
+      }
     }
   }, [location.pathname])
 
@@ -44,9 +59,9 @@ const SearchBox = () => {
     <Box className={containerStyle}>
 
       <input
+        ref={inputRef}
         type="text"
         defaultValue={searchParams.get("title") ?? ""}
-        value={text}
         onChange={handelChange}
         onBlur={() => {
           handleBlur()
