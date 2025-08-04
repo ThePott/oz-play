@@ -31,8 +31,9 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: any, variant: "N
       className={linkVariantStyle}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}>
-      <HeartButton movieId={movieCardInfo.id} doLike={true} />
-      
+        
+      {isMouseOver && <HeartButton movieId={movieCardInfo.id} />}
+
       <img src={posterSrc} alt={`${movieCardInfo.title}__poster`} className={`transition ${isMouseOver && "scale-105"} duration-500`} />
 
       <Box className={`transition absolute bottom-0 ${colorStyle.bgFront} ${isMouseOver ? "opacity-100" : "opacity-80"} px-3 py-1 w-full`}>

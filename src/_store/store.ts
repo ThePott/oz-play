@@ -50,10 +50,12 @@ interface MovieState {
 
     favoriteIdDict: FavoriteIdDict
     setFavoriteIdDict: (favoriteIdDict: FavoriteIdDict) => void
-    toggleFavoriteInStore: (movieId: number) => void
+    toggleFavoriteInStore: (movieId: number, to: boolean) => void
 
     favoriteDetailDict: MovieDict,
+    resetFavoriteDetailDict: () => void
     addToFavoriteDetailDict: (movieDetailData: any) => void
+    deleteFromFavoriteDetailDict: (movieId: number) => void
 }
 
 const useMovieStore = create<MovieState>()(persist(
@@ -117,14 +119,14 @@ const useMovieStore = create<MovieState>()(persist(
         setError(error) { set({ error }) },
         favoriteIdDict: {},
         setFavoriteIdDict(favoriteIdDict) { set({ favoriteIdDict }) },
-        toggleFavoriteInStore(movieId) {
+        toggleFavoriteInStore(movieId, to) {
             set((state) => {
                 const copiedDict = { ...state.favoriteIdDict }
 
-                if (state.favoriteIdDict[movieId]) {
-                    delete copiedDict[movieId]
-                } else {
+                if (to) {
                     copiedDict[movieId] = { id: movieId, created_at: Number(new Date()) }
+                } else {
+                    delete copiedDict[movieId]
                 }
 
                 return { favoriteIdDict: copiedDict }
@@ -132,10 +134,18 @@ const useMovieStore = create<MovieState>()(persist(
         },
 
         favoriteDetailDict: {},
+        resetFavoriteDetailDict() { set({ favoriteDetailDict: {} }) },
         addToFavoriteDetailDict(movieDetailData) {
             set((state) => {
                 const favoriteDetailDict = { [movieDetailData.id]: movieDetailData }
                 return { favoriteDetailDict: { ...state.favoriteDetailDict, ...favoriteDetailDict } }
+            })
+        },
+        deleteFromFavoriteDetailDict(movieId) {
+            set((state) => {
+                const copiedDict = { ...state.favoriteDetailDict }
+                delete copiedDict[movieId]
+                return { favoriteDetailDict: copiedDict }
             })
         },
     }),

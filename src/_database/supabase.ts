@@ -76,19 +76,23 @@ export const getUser = async (setUser: (user: any | null) => void, setProviderCr
     setProviderCredentialResponse(null)
 }
 
-export const addToFavoritesInDb = async (user_id: string, movie_id: number) => {
-    const { error: error1 } = await supabase
-        .from('favorites')
-        .insert({ user_id, movie_id })
-    if (error1) {
-
-        console.error("---- error:", user_id, "/", movie_id, "/", error1)
+export const toggleFavoriteInDb = async (user_id: string, movie_id: number, to: boolean) => {
+    if (to) {
+        const { error } = await supabase
+            .from('favorites')
+            .insert({ user_id, movie_id })
+        if (error) {
+            console.error("---- error:", user_id, "/", movie_id, "/", error)
+        }
+        return
     }
 
-    const { data, error } = await supabase
+    const response = await supabase
         .from('favorites')
-        .select()
-    console.log("---- res:", data, error)
+        .delete()
+        .eq('user_id', user_id)
+        .eq("movie_id", movie_id)
+    console.log("---- response:", response)
 }
 
 export const getFavoriteIdDict = async (setFavoriteIdDict: (favoriteIdDict: FavoriteIdDict) => void) => {

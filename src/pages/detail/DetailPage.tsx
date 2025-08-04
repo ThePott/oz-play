@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams } from "react-router"
 import { imageBaseUrl } from '../../_constants/constants'
-import { addToFavoritesInDb } from '../../_database/supabase'
+import { toggleFavoriteInDb } from '../../_database/supabase'
 import { useSelectedMovieGet } from "../../_hooks/hooks"
 import useMovieStore from "../../_store/store"
 import { makeButtonSx } from '../../_utils/utils'
@@ -25,7 +25,6 @@ const DetailPage = () => {
   const toggleFavoriteInStore = useMovieStore((state) => state.toggleFavoriteInStore)
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
-
   useEffect(() => { setIsFavorite(Boolean(favoriteIdDict[movieId])) }, [favoriteIdDict])
 
   useSelectedMovieGet(movieId)
@@ -50,8 +49,8 @@ const DetailPage = () => {
   const handleClick = () => {
     if (!user) { return }
     const user_id = user.identities[0].user_id
-    addToFavoritesInDb(user_id, selectedMovie.id)
-    toggleFavoriteInStore(selectedMovie.id)
+    toggleFavoriteInDb(user_id, selectedMovie.id, !isFavorite)
+    toggleFavoriteInStore(selectedMovie.id, !isFavorite)
   }
 
   return (
@@ -61,7 +60,7 @@ const DetailPage = () => {
         {videoInfo && <YoutubeBox youtubeKey={videoInfo.key} />}
         {!videoInfo && <img src={backdropSrc} alt="backdrop" />}
 
-        <Button onClick={handleClick}>{isFavorite ? "찜하기" : "찜하기 취소"}</Button>
+        <Button onClick={handleClick}>{isFavorite ? "찜하기 취소" : "찜하기"}</Button>
 
         <p className="text-5xl font-semibold">{selectedMovie["title"]}</p>
         <Box>

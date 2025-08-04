@@ -1,17 +1,32 @@
+import { toggleFavoriteInDb } from "../_database/supabase.ts"
 import useMovieStore from "../_store/store.ts"
 import HeartIcon from "./HeartIcon.tsx"
 
-const HeartButton = ({ movieId, doLike }: { movieId: number, doLike: boolean }) => {
+const HeartButton = ({ movieId }: { movieId: number }) => {
+    const favoriteIdDict = useMovieStore((state) => state.favoriteIdDict)
+    const user = useMovieStore((state) => state.user)
     const toggleFavoriteInStore = useMovieStore((state) => state.toggleFavoriteInStore)
+    const deleteFromFavoriteDetailDict = useMovieStore((state) => state.deleteFromFavoriteDetailDict)
+
+    const isFavorite = Boolean(favoriteIdDict[movieId])
+
+    if (!user) return null
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const user_id = user.identities[0].user_id
         event.stopPropagation()
-        toggleFavoriteInStore(movieId)
+        event.preventDefault()
+        toggleFavoriteInStore(movieId, !isFavorite)
+        toggleFavoriteInDb(user_id, movieId, !isFavorite)
+
+        if (isFavorite) {
+            deleteFromFavoriteDetailDict(movieId)
+        }
     }
 
     return (
         <div onClick={handleClick} className="absolute top-0 right-0 z-20 p-2">
-            <HeartIcon className="h-[30px] text-red-400" doLike={doLike} />
+            <HeartIcon className="h-[30px] text-red-400" doLike={isFavorite} />
         </div>
     )
 }
