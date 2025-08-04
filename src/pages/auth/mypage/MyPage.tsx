@@ -35,7 +35,7 @@ const MyPage = () => {
   const metadata = user.user_metadata
   const pictureSrc = metadata.picture ? metadata.picture : metadata.avatar_url
   return (
-    <Box sx={{}} className={`${colorStyle.bgBack} px-3 py-12 h-full overflow-y-scroll overflow-x-hidden flex flex-col gap-12`}>
+    <Box sx={{scrollbarColor: "oklch(0.5 0 0) transparent"}} className={`${colorStyle.bgBack} px-3 py-12 h-full overflow-y-scroll overflow-x-hidden flex flex-col gap-12`}>
       <h2 className="text-4xl font-semibold col-span-full text-center">마이페이지</h2>
 
       <div className="grid grid-cols-2 gap-3 h-[200px] shrink-0">
