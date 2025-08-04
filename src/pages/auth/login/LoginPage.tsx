@@ -5,6 +5,7 @@ import { signInWithEmail } from "../../../_database/supabase"
 import useMovieStore from "../../../_store/store"
 import GoogleLoginButton from "../../../components/GoogleLoginButton"
 import { ValidatedInput } from "../../../components/ValidatedInput"
+import KakaoLoginButton from "../../../components/KakaoLoginButton"
 
 const LoginPage = () => {
   const setUser = useMovieStore((state) => state.setUser)
@@ -44,6 +45,7 @@ const LoginPage = () => {
 
       <Box className="w-fit self-center">
         <GoogleLoginButton />
+        <KakaoLoginButton />
       </Box>
 
     </Box>

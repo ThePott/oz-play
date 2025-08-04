@@ -1,0 +1,15 @@
+.kakao-button {
+  --kakao-black: #000000;
+  --kakao-yellow: #fee500;
+
+  /* height: 90px; */
+  color: var(--kakao-black);
+  transition: background-color 0.2s;
+  background-color: var(--kakao-yellow);
+
+  font-size: 14px;
+}
+
+.kakao-button:hover {
+  background-color: #ffde00;
+}
