@@ -50,7 +50,7 @@ interface MovieState {
 
     favoriteIdDict: FavoriteIdDict
     setFavoriteIdDict: (favoriteIdDict: FavoriteIdDict) => void
-    toggleFavorite: (movieId: number) => void
+    toggleFavoriteInStore: (movieId: number) => void
 
     favoriteDetailDict: MovieDict,
     addToFavoriteDetailDict: (movieDetailData: any) => void
@@ -117,14 +117,14 @@ const useMovieStore = create<MovieState>()(persist(
         setError(error) { set({ error }) },
         favoriteIdDict: {},
         setFavoriteIdDict(favoriteIdDict) { set({ favoriteIdDict }) },
-        toggleFavorite(movieId) {
+        toggleFavoriteInStore(movieId) {
             set((state) => {
                 const copiedDict = { ...state.favoriteIdDict }
 
                 if (state.favoriteIdDict[movieId]) {
                     delete copiedDict[movieId]
                 } else {
-                    copiedDict[movieId] = { id: movieId, createdAt: new Date() }
+                    copiedDict[movieId] = { id: movieId, created_at: Number(new Date()) }
                 }
 
                 return { favoriteIdDict: copiedDict }

@@ -76,7 +76,7 @@ export const getUser = async (setUser: (user: any | null) => void, setProviderCr
     setProviderCredentialResponse(null)
 }
 
-export const addToFavorites = async (user_id: string, movie_id: number) => {
+export const addToFavoritesInDb = async (user_id: string, movie_id: number) => {
     const { error: error1 } = await supabase
         .from('favorites')
         .insert({ user_id, movie_id })
@@ -102,7 +102,8 @@ export const getFavoriteIdDict = async (setFavoriteIdDict: (favoriteIdDict: Favo
         return
     }
 
-    const favoriteIdDict = data.reduce((acc: FavoriteIdDict, cur: any) => { 
+    const favoriteIdDict = data.reduce((acc: FavoriteIdDict, cur: any) => {
+        cur.created_at = Number(new Date(cur.created_at))
         acc[cur.movie_id] = cur
         return acc
     }, {})

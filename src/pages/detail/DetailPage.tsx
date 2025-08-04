@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from "react-router"
 import { imageBaseUrl } from '../../_constants/constants'
-import { addToFavorites } from '../../_database/supabase'
+import { addToFavoritesInDb } from '../../_database/supabase'
 import { useSelectedMovieGet } from "../../_hooks/hooks"
 import useMovieStore from "../../_store/store"
 import { makeButtonSx } from '../../_utils/utils'
@@ -21,30 +21,37 @@ const DetailPage = () => {
   const movieId = Number(params.movieId)
   const selectedMovie = useMovieStore((state) => state.selectedMovie)
   const setSelectedMovie = useMovieStore((state) => state.setSelectedMovie)
+  const favoriteIdDict = useMovieStore((state) => state.favoriteIdDict)
+  const toggleFavoriteInStore = useMovieStore((state) => state.toggleFavoriteInStore)
+
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
+
+  useEffect(() => { setIsFavorite(Boolean(favoriteIdDict[movieId])) }, [favoriteIdDict])
+
   useSelectedMovieGet(movieId)
 
   useEffect(() => {
     return () => setSelectedMovie(null)
   }, [])
   const user = useMovieStore((state) => state.user)
-  
+
   if (!selectedMovie) { return null }
-  
-  const videoInfo =  selectedMovie.videos ? selectedMovie.videos.results[0] : null
+
+  const videoInfo = selectedMovie.videos ? selectedMovie.videos.results[0] : null
   const backdropPath = selectedMovie.backdrop_path
   const backdropSrc = `${imageBaseUrl}${backdropPath}`
-    
+
   const genreArray = selectedMovie["genres"]
   const recommendationArray = selectedMovie.recommendations ? selectedMovie.recommendations.results : []
-  
+
   const voteAverage = Math.round(selectedMovie["vote_average"] * 10) / 10
   const voteInfo = `⭐️ ${voteAverage}(${selectedMovie["vote_count"]})`
-  
+
   const handleClick = () => {
     if (!user) { return }
     const user_id = user.identities[0].user_id
-    addToFavorites(user_id, selectedMovie.id)
-
+    addToFavoritesInDb(user_id, selectedMovie.id)
+    toggleFavoriteInStore(selectedMovie.id)
   }
 
   return (
@@ -54,7 +61,7 @@ const DetailPage = () => {
         {videoInfo && <YoutubeBox youtubeKey={videoInfo.key} />}
         {!videoInfo && <img src={backdropSrc} alt="backdrop" />}
 
-        <Button onClick={handleClick}>찜하기</Button>
+        <Button onClick={handleClick}>{isFavorite ? "찜하기" : "찜하기 취소"}</Button>
 
         <p className="text-5xl font-semibold">{selectedMovie["title"]}</p>
         <Box>

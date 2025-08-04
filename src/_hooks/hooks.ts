@@ -1,44 +1,9 @@
-import axios from "axios"
 import { useCallback, useEffect, useRef, useState } from "react"
-import useMovieStore from "../_store/store"
-import { getDetail, getMovieDict } from "../_services/tmdbServices"
 import { useSearchParams } from "react-router"
+import { getDetail, getMovieDict } from "../_services/tmdbServices"
+import useMovieStore from "../_store/store"
 
-// const apiReadAccessToken = import.meta.env.VITE_API_READ_ACCESS_TOKEN
 
-// const getResponse = async (url: string) => {
-//     try {
-//         const response = await axios.get(
-//             url,
-//             { headers: { Authorization: `Bearer ${apiReadAccessToken}` } }
-//         )
-
-//         console.log("test response", response.data)
-
-//     } catch (error) {
-//         console.error("---- ERROR OCCURRED:", error)
-//     }
-// }
-
-// export const useTestGet = (url: string) => {
-//     useEffect(() => { getResponse(url) }, [])
-// }
-
-// export const useMovieGet = () => {
-//     const setMovieArray = useMovieStore((state) => state.setMovieArray)
-//     const [searchParams, _setSearchParams] = useSearchParams()
-//     const query = searchParams.get("title") ?? ""
-//     const page = useMovieStore((state) => state.page)
-//     const increasePage = useMovieStore((state) => state.increasePage)
-
-//     useEffect(
-//         () => {
-//             console.log("---- NO CALL AFTER MOUNT")
-//             // getMovieALot(page, setMovieArray, query, increasePage)
-//         },
-//         [query]
-//     )
-// }
 
 export const useSelectedMovieGet = (movieId: number) => {
     const setSelectedMovie = useMovieStore((state) => state.setSelectedMovie)
@@ -106,48 +71,6 @@ const intersectionCallback = (entries: any, callback: any) => {
     });
 }
 
-// export const useBottomAppendation = () => {
-//     const [searchParams, _setSearchParams] = useSearchParams()
-//     const page = useMovieStore((state) => state.page)
-//     const increasePage = useMovieStore((state) => state.increasePage)
-//     // const resetPage = useMovieStore((state) => state.resetPage)
-//     const appendMovieArray = useMovieStore((state) => state.appendMovieArray)
-//     const query = searchParams.get("title") ?? ""
-//     const bottomRef = useRef(null);
-
-//     const startRef = useRef<number>(Number(new Date()))
-
-
-//     const callback = () => {
-//         const now = Number(new Date())
-
-//         if ((now - startRef.current) < 2000) { return }
-
-//         // getMovieALot(page, appendMovieArray, query, increasePage)
-//         startRef.current = Number(new Date())
-//     }
-
-//     useEffect(() => {
-//         console.log("--- new page in effect:", page)
-//         const observer = new IntersectionObserver(
-//             (entries) => intersectionCallback(entries, callback), {
-//             threshold: 0.75
-//         });
-
-//         if (bottomRef.current) {
-//             observer.observe(bottomRef.current);
-//         }
-
-//         return () => {
-//             console.log("---- clean up observer for:", page)
-//             observer.disconnect()
-//         }
-//     }, [page])
-
-//     // useEffect(() => { return () => resetPage() }, [query])
-
-//     return { bottomRef }
-// }
 
 /** 메인 페이지에서 호출 -> 쿼리 있든 없든 대응 */
 export const useMovieDictSet = () => {
@@ -242,9 +165,3 @@ export const useFavoriteMovieDict = () => {
         })
     }, [favoriteIdDict])
 }
-
-// export const useAddToFavorites = () => {
-//     const 
-
-//     const toggleFavorite = useCallback(() => {}, [])
-// }
