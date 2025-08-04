@@ -63,7 +63,6 @@ export const signOut = async (setUser: (user: any | null) => void) => {
 
 export const singInWithProvider = async (provider: Provider, setProviderCredentialResponse: (providerCredentialResponse: any) => void, setLoginError: (loginError: any) => void) => {
     const { data, error } = await supabase.auth.signInWithOAuth({ provider })
-    console.log("---- data:", data, "---- error:", error)
     setProviderCredentialResponse(data)
 
     if (error) {
@@ -79,7 +78,7 @@ export const getUser = async (setUser: (user: any | null) => void, setProviderCr
     setUser(user)
     setProviderCredentialResponse(null)
 
-    getFavorites()
+    // getFavoriteSet()
 }
 
 export const addToFavorites = async (user_id: string, movie_id: number) => {
@@ -106,12 +105,21 @@ export const addToFavorites = async (user_id: string, movie_id: number) => {
     //     .select()
 }
 
-export const getFavorites = async () => {
-    // export const getFavorites = async (setFavoriteSet: (favoriteJson: any) => void) => {
+export const getFavoriteSet = async (setFavoriteSet: (favoriteSet: Set<number>) => void) => {
+    // export const getFavoriteSet = async (setFavoriteSet: (favoriteJson: any) => void) => {
     const { data, error } = await supabase
         .from('favorites')
         .select()
-    console.log("---- data:", data, "---- error:", error)
+    console.log("---- favorites data:", data, "---- error:", error)
+    if (!data) {
+        console.error("---- fail to get favorite data, but not error in mystical reasons")
+        debugger
+        return
+    }
+
+    const movieIdArray = data.map((el) => el.id)
+    const favoriteSet = new Set<number>(movieIdArray)
+    setFavoriteSet(favoriteSet)
     //  const { error: error1 } = await supabase
     //     .from('favorites')
     //     .insert({ user_id, movie_id })
