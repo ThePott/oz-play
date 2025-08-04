@@ -16,6 +16,7 @@ interface MovieArrayDict {
 }
 
 export type MovieDict = Record<number, any>
+export type FavoriteIdDict = Record<number, any>
 
 interface MovieState {
     movieDict: MovieDict
@@ -47,13 +48,12 @@ interface MovieState {
     error: any
     setError: (error: any) => void
 
-    favoriteSet: Set<number>
-    setFavoriteSet: (favoriteSet: Set<number>) => void
+    favoriteIdDict: FavoriteIdDict
+    setFavoriteIdDict: (favoriteIdDict: FavoriteIdDict) => void
     toggleFavorite: (movieId: number) => void
 
-    favoriteMovieDict: MovieDict,
-    // setFavoriteMovieDict: (favoriteMovieDict: MovieDict) => void
-    addToFavoriteMovieDict: (movieDetailData: any) => void
+    favoriteDetailDict: MovieDict,
+    addToFavoriteDetailDict: (movieDetailData: any) => void
 }
 
 const useMovieStore = create<MovieState>()(persist(
@@ -115,27 +115,27 @@ const useMovieStore = create<MovieState>()(persist(
         //------------------------아직은 따로 핸들링을 안 함------------------
         error: null,
         setError(error) { set({ error }) },
-        favoriteSet: new Set<number>([]),
-        setFavoriteSet(favoriteSet) { set({ favoriteSet }) },
+        favoriteIdDict: {},
+        setFavoriteIdDict(favoriteIdDict) { set({ favoriteIdDict }) },
         toggleFavorite(movieId) {
             set((state) => {
-                const newSet = new Set<number>([...state.favoriteSet])
-                if (state.favoriteSet.has(movieId)) {
-                    newSet.delete(movieId)
+                const copiedDict = { ...state.favoriteIdDict }
+
+                if (state.favoriteIdDict[movieId]) {
+                    delete copiedDict[movieId]
                 } else {
-                    newSet.add(movieId)
+                    copiedDict[movieId] = { id: movieId, createdAt: new Date() }
                 }
 
-                return { favoriteSet: newSet }
+                return { favoriteIdDict: copiedDict }
             })
         },
 
-        favoriteMovieDict: {},
-        // setFavoriteMovieDict(favoriteMovieDict) { set({ favoriteMovieDict }) },
-        addToFavoriteMovieDict(movieDetailData) {
+        favoriteDetailDict: {},
+        addToFavoriteDetailDict(movieDetailData) {
             set((state) => {
-                const favoriteMovieDict = {[movieDetailData.id]: movieDetailData}
-                return { favoriteMovieDict: { ...state.favoriteMovieDict, ...favoriteMovieDict } }
+                const favoriteDetailDict = { [movieDetailData.id]: movieDetailData }
+                return { favoriteDetailDict: { ...state.favoriteDetailDict, ...favoriteDetailDict } }
             })
         },
     }),

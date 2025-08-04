@@ -230,40 +230,17 @@ export const useBottomAdd = () => {
     return { bottomRef }
 }
 
-/** ALMOST SAME!!!! useMovieDict랑 거의 같음 어떻게 잘 합질 방법이 있을 듯
- *  비어있으면 set, 아니면 add // <<--- 아닌가? // <<-- 이것도 그냥 무비 딕트에 적용할 수 있을 거 같기도 하고
- *
- * movie id dict와는 별개
- */
-// 아냐 완전 달라
-// export const useFavoriteMovieDict = () => {
-//     const [searchParams, _setSearchParams] = useSearchParams()
-//     const page = useMovieStore((state) => state.page) //<<-----즐겨찾기가 만 개다 그렇다면 대응을 해야지 
-//     // TODO: reset page 찾아야 함
-//     const increasePage = useMovieStore((state) => state.increasePage)
-//     // const query = searchParams.get("title") ?? ""
-//     const favoriteMovieDict = useMovieStore((state) => state.favoriteMovieDict)
-//     const setFavoriteMovieDict = useMovieStore((state) => state.setFavoriteMovieDict)
-//     const setIsLoading = useMovieStore((state) => state.setIsLoading)
-
-//     // TODO 일단 단순화(하드코딩) -> 이후 상황에 맞게
-//     useEffect(() => {
-//         getMovieDict(1, "", favoriteMovieDict, setFavoriteMovieDict, increasePage, setIsLoading)
-//     }, [])
-// }
-
-
-
 export const useFavoriteMovieDict = () => {
-    const favoriteSet = useMovieStore((state) => state.favoriteSet)
-    const addToFavoriteMovieDict = useMovieStore((state) => state.addToFavoriteMovieDict)
-    const favoriteArray = Array.from(favoriteSet)
+    const favoriteIdDict = useMovieStore((state) => state.favoriteIdDict)
+    const addToFavoriteDetailDict = useMovieStore((state) => state.addToFavoriteDetailDict)
+    const favoriteIdArray = Object.keys(favoriteIdDict)
+    console.log("---- favorite id array:", favoriteIdArray)
 
     useEffect(() => {
-        favoriteArray.forEach((movieId) => {
-            getDetail(movieId, addToFavoriteMovieDict)
+        favoriteIdArray.forEach((movieId) => {
+            getDetail(Number(movieId), addToFavoriteDetailDict)
         })
-    }, [])
+    }, [favoriteIdDict])
 }
 
 // export const useAddToFavorites = () => {

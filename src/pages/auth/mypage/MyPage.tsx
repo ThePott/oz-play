@@ -6,12 +6,16 @@ import UnauthorizedBox from "./mypageComponents/UnauthorizedBox"
 import { useEffect } from "react"
 import { useFavoriteMovieDict } from "../../../_hooks/hooks"
 import MovieCardGrid from "../../main/mainComponents/MovieCardGrid"
+import { getFavoriteIdDict } from "../../../_database/supabase"
 
 const MyPage = () => {
   const navigate = useNavigate()
   const user = useMovieStore((state) => state.user)
-  const favorteMovieDict = useMovieStore((state) => state.favoriteMovieDict)
-  const favoriteMovieArray = Object.values(favorteMovieDict)
+  
+  const favorteDetailDict = useMovieStore((state) => state.favoriteDetailDict)
+  const favoriteMovieArray = Object.values(favorteDetailDict)
+
+  const setFavoriteIdDict = useMovieStore((state) => state.setFavoriteIdDict)
 
   useFavoriteMovieDict()
 
@@ -19,6 +23,10 @@ const MyPage = () => {
     if (!user) {
       const timeoutId = setTimeout(() => navigate("/login"), 3000)
       return () => clearTimeout(timeoutId)
+    }
+
+    if (Object.values(favorteDetailDict).length === 0) {
+      getFavoriteIdDict(setFavoriteIdDict)
     }
   }, [user])
 
@@ -34,7 +42,7 @@ const MyPage = () => {
       <img src={metadata.picture} />
       <p>{metadata.name}</p>
 
-      <Button onClick={() => { console.log("---- favorite detail dict:", favorteMovieDict) }}>favorite detail 출력</Button>
+      <Button onClick={() => { console.log("---- favorite detail dict:", favorteDetailDict) }}>favorite detail 출력</Button>
       <MovieCardGrid movieArray={favoriteMovieArray}  />
     </Box>
   )
