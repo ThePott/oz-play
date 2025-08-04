@@ -117,7 +117,7 @@ export const getFavoriteSet = async (setFavoriteSet: (favoriteSet: Set<number>) 
         return
     }
 
-    const movieIdArray = data.map((el) => el.id)
+    const movieIdArray = data.map((el) => el.movie_id)
     const favoriteSet = new Set<number>(movieIdArray)
     setFavoriteSet(favoriteSet)
     //  const { error: error1 } = await supabase

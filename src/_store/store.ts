@@ -50,6 +50,10 @@ interface MovieState {
     favoriteSet: Set<number>
     setFavoriteSet: (favoriteSet: Set<number>) => void
     toggleFavorite: (movieId: number) => void
+
+    favoriteMovieDict: MovieDict,
+    // setFavoriteMovieDict: (favoriteMovieDict: MovieDict) => void
+    addToFavoriteMovieDict: (movieDetailData: any) => void
 }
 
 const useMovieStore = create<MovieState>()(persist(
@@ -122,9 +126,18 @@ const useMovieStore = create<MovieState>()(persist(
                     newSet.add(movieId)
                 }
 
-                return {favoriteSet: newSet}
+                return { favoriteSet: newSet }
             })
-        }
+        },
+
+        favoriteMovieDict: {},
+        // setFavoriteMovieDict(favoriteMovieDict) { set({ favoriteMovieDict }) },
+        addToFavoriteMovieDict(movieDetailData) {
+            set((state) => {
+                const favoriteMovieDict = {[movieDetailData.id]: movieDetailData}
+                return { favoriteMovieDict: { ...state.favoriteMovieDict, ...favoriteMovieDict } }
+            })
+        },
     }),
     {
         name: 'oz-movie-app-user',

@@ -48,7 +48,12 @@ export const getVariousMovieArray = async () => {
     console.log("---- result:", result)
 }
 
-export const getMovieDict = async (page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void, setIsLoading?: (isLoading: boolean) => void) => {
+// TODO set is loading은 모든 상황에서 필요할 거 같은데
+export const getMovieDict = async (
+    page: number, query: string, movieDict: MovieDict, addToMovieDict: (movieDict: MovieDict) => void, increasePage: () => void, 
+    setIsLoading?: (isLoading: boolean) => void,
+    
+) => {
     if (setIsLoading) { setIsLoading(true) }
 
     const url = makePagedUrl(page, query)
@@ -66,3 +71,4 @@ export const getMovieDict = async (page: number, query: string, movieDict: Movie
     increasePage()
     if (setIsLoading) { setIsLoading(false) }
 }
+

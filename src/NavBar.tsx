@@ -17,6 +17,7 @@ const Navbar = React.memo(() => {
     const toggleIsDark = useMovieStore((state) => state.toggleIsDark)
     const isDark = useMovieStore((state) => state.isDark)
     const favoriteSet = useMovieStore((state) => state.favoriteSet)
+    const favoriteMovieDict = useMovieStore((state) => state.favoriteMovieDict)
 
     const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)
     const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
@@ -39,7 +40,7 @@ const Navbar = React.memo(() => {
                 <span className="max-[576px]:hidden">
                     <Switch checked={!isDark} onChange={handleToggle} />
                 </span>
-                <Button onClick={() => console.log("---- favorite:", favoriteSet)}>즐겨찾기</Button>
+                <Button onClick={() => console.log("---- favorite:", favoriteSet, favoriteMovieDict)}>즐겨찾기</Button>
             </Box>
             <Box className="absolute right-3 flex items-center gap-3">
                 <SearchBox text={text} onBlur={handleBlur} onChange={handelChange} onKeyDown={handleKeyDown} />

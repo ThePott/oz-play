@@ -4,10 +4,12 @@ import { colorStyle } from "../../../_constants/colorConstants"
 import useMovieStore from "../../../_store/store"
 import UnauthorizedBox from "./mypageComponents/UnauthorizedBox"
 import { useEffect } from "react"
+import { useFavoriteMovieDict } from "../../../_hooks/hooks"
 
 const MyPage = () => {
   const navigate = useNavigate()
   const user = useMovieStore((state) => state.user)
+  useFavoriteMovieDict()
 
   useEffect(() => {
     if (!user) {
