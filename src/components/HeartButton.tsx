@@ -2,7 +2,7 @@ import { toggleFavoriteInDb } from "../_database/supabase.ts"
 import useMovieStore from "../_store/store.ts"
 import HeartIcon from "./HeartIcon.tsx"
 
-const HeartButton = ({ movieId }: { movieId: number }) => {
+const HeartButton = ({ movieId, isRelative }: { movieId: number, isRelative?: boolean }) => {
     const favoriteIdDict = useMovieStore((state) => state.favoriteIdDict)
     const user = useMovieStore((state) => state.user)
     const toggleFavoriteInStore = useMovieStore((state) => state.toggleFavoriteInStore)
@@ -25,7 +25,7 @@ const HeartButton = ({ movieId }: { movieId: number }) => {
     }
 
     return (
-        <div onClick={handleClick} className="absolute top-0 right-0 z-20 p-2">
+        <div onClick={handleClick} className={`${!isRelative && "absolute top-0 right-0 z-20"} p-2`}>
             <HeartIcon className="h-[30px] text-red-400" doLike={isFavorite} />
         </div>
     )

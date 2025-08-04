@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams } from "react-router"
 import { imageBaseUrl } from '../../_constants/constants'
-import { toggleFavoriteInDb } from '../../_database/supabase'
 import { useSelectedMovieGet } from "../../_hooks/hooks"
 import useMovieStore from "../../_store/store"
 import { makeButtonSx } from '../../_utils/utils'
+import HeartButton from '../../components/HeartButton'
 import MovieCardGrid from '../main/mainComponents/MovieCardGrid'
 import YoutubeBox from './detailComponents/YoutubeBox'
 
@@ -21,11 +21,6 @@ const DetailPage = () => {
   const movieId = Number(params.movieId)
   const selectedMovie = useMovieStore((state) => state.selectedMovie)
   const setSelectedMovie = useMovieStore((state) => state.setSelectedMovie)
-  const favoriteIdDict = useMovieStore((state) => state.favoriteIdDict)
-  const toggleFavoriteInStore = useMovieStore((state) => state.toggleFavoriteInStore)
-
-  const [isFavorite, setIsFavorite] = useState<boolean>(false)
-  useEffect(() => { setIsFavorite(Boolean(favoriteIdDict[movieId])) }, [favoriteIdDict])
 
   useSelectedMovieGet(movieId)
 
@@ -46,13 +41,6 @@ const DetailPage = () => {
   const voteAverage = Math.round(selectedMovie["vote_average"] * 10) / 10
   const voteInfo = `⭐️ ${voteAverage}(${selectedMovie["vote_count"]})`
 
-  const handleClick = () => {
-    if (!user) { return }
-    const user_id = user.identities[0].user_id
-    toggleFavoriteInDb(user_id, selectedMovie.id, !isFavorite)
-    toggleFavoriteInStore(selectedMovie.id, !isFavorite)
-  }
-
   return (
     <Box sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }} className="flex flex-col md:grid grid-cols-3 gap-12 flex-1 h-full overflow-y-scroll px-3">
 
@@ -60,9 +48,11 @@ const DetailPage = () => {
         {videoInfo && <YoutubeBox youtubeKey={videoInfo.key} />}
         {!videoInfo && <img src={backdropSrc} alt="backdrop" />}
 
-        <Button onClick={handleClick}>{isFavorite ? "찜하기 취소" : "찜하기"}</Button>
+        <div className="flex gap-3">
+          <p className="text-5xl font-semibold">{selectedMovie["title"]}</p>
+          {user && <HeartButton movieId={movieId} isRelative={true} />}
+        </div>
 
-        <p className="text-5xl font-semibold">{selectedMovie["title"]}</p>
         <Box>
           <p className="text-2xl mb-2">{selectedMovie.tagline}</p>
           <p>{voteInfo}</p>
