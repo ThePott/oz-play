@@ -1,6 +1,6 @@
-import { axiosMovie } from "./axiosSettings"
-import { keyUrlDictArray, makeGenreUrl, genreDictArray } from "../_constants/constants"
+import { keyUrlDictArray } from "../_constants/constants"
 import type { MovieDict } from "../_store/store"
+import { axiosMovie } from "./axiosSettings"
 
 const getJsonPromise = async (url: string, targetArray: string[]) => {
     const response = await axiosMovie.get(url)
@@ -20,19 +20,6 @@ const makePagedUrl = (page: number, query: string) => {
     const trimmedQuery = query.trim()
     return `https://api.themoviedb.org/3/search/movie?query=${trimmedQuery}&include_adult=false&language=ko&page=${page}`
 }
-
-// export const getMovieALot = async (page: number, setMovieArray: (movieArray: any) => void, query: string, increasePage: () => void) => {
-//     console.log("---- page:", page)
-//     const url = makePagedUrl(page, query)
-//     const json = await getJsonPromise(url, ["results"])
-
-//     setMovieArray(json)
-//     if (!increasePage) {
-//         console.error("---- no page increase")
-//         return
-//     }
-//     increasePage()
-// }
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko&append_to_response=credits,release_dates,videos,recommendations`

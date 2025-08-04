@@ -43,7 +43,7 @@ const LoginPage = () => {
 
       <Button onClick={() => navigate("/signup")}>회원가입</Button>
 
-      <Box className="w-fit self-center">
+      <Box className="self-center flex flex-col gap-3 ">
         <GoogleLoginButton />
         <KakaoLoginButton />
       </Box>

@@ -37,7 +37,7 @@ const SignupPage = () => {
     const typeArray = ["NAME", "EMAIL", "PASSWORD1", "PASSWORD2"] as const
 
     return (
-        <Box component="form" className="flex flex-col gap-3" onSubmit={handleSubmit}>
+        <Box component="form" className="flex flex-col gap-3 max-w-[400px] w-full mx-auto" onSubmit={handleSubmit}>
             {typeArray.map((type) =>
                 <ValidatedInput
                     key={type} type={type}
