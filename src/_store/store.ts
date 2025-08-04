@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
 
 export type MovieDict = Record<number, any>
 export type FavoriteIdDict = Record<number, any>
@@ -51,9 +51,7 @@ const useMovieStore = create<MovieState>()(persist(
     (set) => ({
         movieDict: {},
         setMovieDict(movieDict) {
-            set((state) => {
-                return { movieDict }
-            })
+            set({ movieDict })
         },
         addToMovieDict(movieDict) {
             set((state) => {

@@ -9,7 +9,7 @@ import HeartButton from '../../components/HeartButton'
 import MovieCardGrid from '../main/mainComponents/MovieCardGrid'
 import YoutubeBox from './detailComponents/YoutubeBox'
 
-const GenreChip = ({ id, name }: { id: number, name: string }) => {
+const GenreChip = ({ name }: { name: string }) => {
   const isDark = useMovieStore((state) => state.isDark)
   return (
     <Button variant='outlined' sx={makeButtonSx('OUTLINED', isDark)} className="p-3 shrink-0">{name}</Button>

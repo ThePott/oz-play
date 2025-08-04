@@ -96,7 +96,7 @@ export const toggleFavoriteInDb = async (user_id: string, movie_id: number, to: 
 }
 
 export const getFavoriteIdDict = async (setFavoriteIdDict: (favoriteIdDict: FavoriteIdDict) => void) => {
-    const { data, error } = await supabase
+    const { data, error: _error } = await supabase
         .from('favorites')
         .select()
 
