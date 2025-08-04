@@ -6,6 +6,12 @@ import { useNavigate } from 'react-router';
 import { signOut } from './_database/supabase';
 import useMovieStore from './_store/store';
 
+const getImageSrc = (user: any) => {
+  const metadata = user.user_metadata
+  const pictureSrc = metadata.picture ? metadata.picture : metadata.avatar_url
+  return pictureSrc
+}
+
 const ProfileBox = () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -14,10 +20,11 @@ const ProfileBox = () => {
   const user = useMovieStore((state) => state.user)
   const setUser = useMovieStore((state) => state.setUser)
   const providerCredentialResponse = useMovieStore((state) => state.providerCredentialResponse)
-  // const setGoogleCredentialResponse = useMovieStore((state) => state.setGoogleCredentialResponse)
 
   const isWaitingLoginResponse = providerCredentialResponse && !user
   const isLoggedIn = user
+
+  const resetFavoriteDetailDict = useMovieStore((state) => state.resetFavoriteDetailDict)
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("----user:", user)
@@ -34,7 +41,7 @@ const ProfileBox = () => {
   const handleLogoutClick = () => {
     setAnchorEl(null)
     user && signOut(setUser)
-    // googleCredentialResponse && setGoogleCredentialResponse(null)
+    resetFavoriteDetailDict()
   }
   const handleMyPageClick = () => {
     setAnchorEl(null)
@@ -43,7 +50,7 @@ const ProfileBox = () => {
 
 
 
-  const profileBaseStyle = "transition w-[54px] h-[54px] rounded-full flex justify-center items-center"
+  const profileBaseStyle = "transition w-[54px] h-[54px] rounded-full flex justify-center items-center overflow-hidden"
   const profileLoggedInStyle = isLoggedIn ? "bg-blue-400" : "border-3 border-blue-400 opacity-60 hover:opacity-100"
   const profileStyle = `${profileBaseStyle} ${profileLoggedInStyle}`
 
@@ -51,7 +58,7 @@ const ProfileBox = () => {
   return (
     <>
       <Box className={profileStyle} onClick={handleClick}>
-        {isLoggedIn && <FaceIcon className="text-white" fontSize='large' />}
+        {isLoggedIn && <img src={getImageSrc(user)} />}
         {isWaitingLoginResponse && <CircularProgress />}
       </Box>
 
