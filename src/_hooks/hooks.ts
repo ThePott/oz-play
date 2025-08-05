@@ -11,7 +11,7 @@ export const useSelectedMovieGet = (movieId: number) => {
         () => {
             getDetail(movieId, setSelectedMovie)
         },
-        []
+        [movieId]
     )
 }
 
