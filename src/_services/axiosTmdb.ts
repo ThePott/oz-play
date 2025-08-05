@@ -16,6 +16,6 @@ const axiosTmdb = axios.create({
 })
 axiosTmdb.interceptors.response.use(handleSuccess, handleFailure)
 // ---- !!!!! fill in here !!!! ----
-axiosTmdb.defaults.baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3456/tmdb" : "http://todo-fill-in-here"
+axiosTmdb.defaults.baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3456/tmdb" : "https://oz-play-api-3dc09dc1af38.herokuapp.com"
 
 export { axiosTmdb }
