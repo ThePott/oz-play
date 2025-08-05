@@ -1,3 +1,4 @@
+import axios from "axios"
 import { keyUrlDictArray } from "../_constants/constants"
 import type { MovieDict } from "../_store/store"
 import { axiosMovie } from "./axiosSettings"
@@ -23,7 +24,8 @@ const makePagedUrl = (page: number, query: string) => {
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko&append_to_response=credits,release_dates,videos,recommendations`
-    const response = await axiosMovie.get(url)
+    // const response = await axiosMovie.get(url)
+    const response = await axios.post("http://localhost:3456/tmdb", url, { headers: { "Content-Type": "text/plain" } })
     const movieDetailData = response.data
     setSelectedMovie(movieDetailData)
 }
@@ -44,7 +46,9 @@ export const getMovieDict = async (
     if (setIsLoading) { setIsLoading(true) }
 
     const url = makePagedUrl(page, query)
-    const json = await getJsonPromise(url, ["results"])
+    // const json = await getJsonPromise(url, ["results"])
+    const response = await axios.post("http://localhost:3456/tmdb", url, { headers: { "Content-Type": "text/plain" } })
+    const json = response.data
     const newMovieDict = json.reduce((acc: MovieDict, cur: any) => {
         if (movieDict[cur.id]) {
             return acc
