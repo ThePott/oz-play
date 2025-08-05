@@ -1,17 +1,5 @@
-import axios from "axios"
-import { keyUrlDictArray } from "../_constants/constants"
 import type { MovieDict } from "../_store/store"
-import { axiosMovie } from "./axiosSettings"
-
-const getJsonPromise = async (url: string, targetArray: string[]) => {
-    const response = await axiosMovie.get(url)
-    const json = response.data
-
-    if (targetArray.length === 0) { return json }
-
-    const returningJson = targetArray.reduce((acc, cur) => acc[cur], json)
-    return returningJson
-}
+import { axiosTmdb } from "./axiosTmdb"
 
 const makePagedUrl = (page: number, query: string) => {
     if (!query) {
@@ -24,17 +12,9 @@ const makePagedUrl = (page: number, query: string) => {
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko&append_to_response=credits,release_dates,videos,recommendations`
-    // const response = await axiosMovie.get(url)
-    const response = await axios.post("http://localhost:3456/tmdb", url, { headers: { "Content-Type": "text/plain" } })
+    const response = await axiosTmdb.post("/", url)
     const movieDetailData = response.data
     setSelectedMovie(movieDetailData)
-}
-
-export const getVariousMovieArray = async () => {
-    const result = keyUrlDictArray.reduce(async (acc: Record<string, any>, cur) => {
-        acc[cur.key] = await axiosMovie.get(cur.url)
-    }, {})
-    console.log("---- result:", result)
 }
 
 /** 무한 스크롤 중에는 is loading이 없어야 한다 */
@@ -46,8 +26,7 @@ export const getMovieDict = async (
     if (setIsLoading) { setIsLoading(true) }
 
     const url = makePagedUrl(page, query)
-    // const json = await getJsonPromise(url, ["results"])
-    const response = await axios.post("http://localhost:3456/tmdb", url, { headers: { "Content-Type": "text/plain" } })
+    const response = await axiosTmdb.post("/", url)
     const json = response.data
     const newMovieDict = json.reduce((acc: MovieDict, cur: any) => {
         if (movieDict[cur.id]) {
@@ -65,6 +44,7 @@ export const getMovieDict = async (
 
 export const getPopularMovieArray = async (setPopularMovieArray: (popluarMovieArray: any[]) => void) => {
     const url = "https://api.themoviedb.org/3/trending/movie/day?language=ko"
-    const json = await getJsonPromise(url, ["results"])
+    const response = await axiosTmdb.post("/", url)
+    const json = response.data
     setPopularMovieArray(json)
 }
