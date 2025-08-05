@@ -12,7 +12,7 @@ const makePagedUrl = (page: number, query: string) => {
 
 export const getDetail = async (movieId: number, setSelectedMovie: (selectedMovie: any) => void) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko&append_to_response=credits,release_dates,videos,recommendations`
-    const response = await axiosTmdb.post("/", url)
+    const response = await axiosTmdb.post("", url)
     const movieDetailData = response.data
     setSelectedMovie(movieDetailData)
 }
@@ -26,7 +26,7 @@ export const getMovieDict = async (
     if (setIsLoading) { setIsLoading(true) }
 
     const url = makePagedUrl(page, query)
-    const response = await axiosTmdb.post("/", url)
+    const response = await axiosTmdb.post("", url)
     const json = response.data
     const newMovieDict = json.reduce((acc: MovieDict, cur: any) => {
         if (movieDict[cur.id]) {
@@ -44,7 +44,7 @@ export const getMovieDict = async (
 
 export const getPopularMovieArray = async (setPopularMovieArray: (popluarMovieArray: any[]) => void) => {
     const url = "https://api.themoviedb.org/3/trending/movie/day?language=ko"
-    const response = await axiosTmdb.post("/", url)
+    const response = await axiosTmdb.post("", url)
     const json = response.data
     setPopularMovieArray(json)
 }
