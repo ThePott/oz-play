@@ -5,6 +5,9 @@ It's time to find your favorite movies, like them, and get recommended!
 You can see the finished product here
 https://oz-play.vercel.app
 
+<img width="870" height="973" alt="image" src="https://github.com/user-attachments/assets/8006b0c3-dd19-4f6e-908d-fae1a8f9421d" />
+
+
 ## ✨ Main Feature
 1. Fetch movies sorted by popularity and display in main page
 2. Search movies by title
