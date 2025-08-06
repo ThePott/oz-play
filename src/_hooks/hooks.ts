@@ -55,7 +55,7 @@ export const useSearchText = () => {
                     setSearchParams({ title: text })
 
                     if (location.pathname === "/") { return }
-                    navigate(`/?title=${text}`)
+                    navigate(`/?title=${text}`, { viewTransition: true })
                 },
                 1000
             )

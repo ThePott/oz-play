@@ -40,7 +40,7 @@ const ProfileBox = () => {
     console.log("----user:", user)
 
     if (!isLoggedIn) {
-      navigate("/login")
+      navigate("/login", { viewTransition: true })
       return
     }
     setAnchorEl(event.currentTarget)
@@ -55,7 +55,7 @@ const ProfileBox = () => {
   }
   const handleMyPageClick = () => {
     setAnchorEl(null)
-    navigate("/mypage")
+    navigate("/mypage", { viewTransition: true })
   }
 
 

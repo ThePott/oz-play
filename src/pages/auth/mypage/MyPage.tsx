@@ -32,7 +32,7 @@ const MyPage = () => {
 
   useEffect(() => {
     if (!user) {
-      const timeoutId = setTimeout(() => navigate("/login", { replace: true }), 3000)
+      const timeoutId = setTimeout(() => navigate("/login", { replace: true, viewTransition: true }), 3000)
       return () => clearTimeout(timeoutId)
     }
 

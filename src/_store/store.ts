@@ -140,7 +140,7 @@ const useMovieStore = create<MovieState>()(persist(
     }),
     {
         name: 'oz-movie-app-user',
-        partialize: (state) => ({ user: state.user, }),
+        partialize: (state) => ({ user: state.user, isDark: state.isDark}),
     }
 ))
 

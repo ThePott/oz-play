@@ -15,7 +15,7 @@ const Navbar = React.memo(() => {
 
     return (
         <Box className={`flex items-center gap-6 p-3 h-[72px] fixed top-0  z-10 w-full`}>
-            <Link to="/" className="text-2xl font-semibold shrink-0">oz play</Link>
+            <Link to="/" viewTransition className="text-2xl font-semibold shrink-0">oz play</Link>
             <div className="flex items-center gap-3">
                 <BedtimeIcon fontSize="large" className={`transition ${!isDark && "opacity-30"}` } />
                 <Switch checked={!isDark} onChange={handleToggle} />

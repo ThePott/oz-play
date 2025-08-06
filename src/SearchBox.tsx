@@ -17,14 +17,14 @@ const SearchBox = () => {
   const handleBlur = () => {
     setSearchParamsNow()
     if (location.pathname === "/") { return }
-    navigate(`/?title=${text}`)
+    navigate(`/?title=${text}`, { viewTransition: true })
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") { return }
     setSearchParamsNow()
     if (location.pathname === "/") { return }
-    navigate(`/?title=${text}`)
+    navigate(`/?title=${text}`, { viewTransition: true })
   }
 
   const [isFocused, setIsFocused] = useState<boolean>(false)

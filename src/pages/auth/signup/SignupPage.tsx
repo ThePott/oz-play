@@ -17,7 +17,7 @@ const SignupPage = () => {
     useEffect(
         () => {
             if (!user) { return }
-            navigate("/", { replace: true })
+            navigate("/", { replace: true, viewTransition: true })
         },
         [user]
     )

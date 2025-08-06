@@ -28,10 +28,11 @@ const MovieCard = ({ movieCardInfo, variant }: { movieCardInfo: any, variant: "N
 
   return (
     <Link to={`/detail/${movieCardInfo.id}`}
+      viewTransition
       className={linkVariantStyle}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}>
-        
+
       {isMouseOver && <HeartButton movieId={movieCardInfo.id} />}
 
       <img src={posterSrc} alt={`${movieCardInfo.title}__poster`} className={`transition ${isMouseOver && "scale-105"} duration-500`} />
