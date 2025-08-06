@@ -8,7 +8,18 @@ import useMovieStore from "../../../_store/store"
 import MovieCardGrid from "../../main/mainComponents/MovieCardGrid"
 import UnauthorizedBox from "./mypageComponents/UnauthorizedBox"
 
+const UserImage = ({ pictureSrc }: { pictureSrc: any }) => {
+  if (pictureSrc) return <img src={pictureSrc} className="rounded-3xl justify-self-end h-[200px]" />
+  return (
+    <div className={`rounded-3xl justify-self-end h-[200px] w-[200px] border-1 ${colorStyle.borderMuted} ${colorStyle.fontMuted} text-4xl font-black flex justify-center items-center opacity-50`}>
+      NO IMAGE
+    </div>
+  )
+}
+
 const MyPage = () => {
+  // const isLoading = useMovieStore((state) => state.isLoading)
+  // if (!isLoading) { debugger }
   const navigate = useNavigate()
   const user = useMovieStore((state) => state.user)
 
@@ -35,11 +46,12 @@ const MyPage = () => {
   const metadata = user.user_metadata
   const pictureSrc = metadata.picture ? metadata.picture : metadata.avatar_url
   return (
-    <Box sx={{scrollbarColor: "oklch(0.5 0 0) transparent"}} className={`${colorStyle.bgBack} px-3 py-12 h-full overflow-y-scroll overflow-x-hidden flex flex-col gap-12`}>
+    <Box sx={{ scrollbarColor: "oklch(0.5 0 0) transparent" }} className={`${colorStyle.bgBack} px-3 py-12 h-full overflow-y-scroll overflow-x-hidden flex flex-col gap-12`}>
       <h2 className="text-4xl font-semibold col-span-full text-center">마이페이지</h2>
 
       <div className="grid grid-cols-2 gap-3 h-[200px] shrink-0">
-        <img src={pictureSrc} className="rounded-3xl justify-self-end h-[200px]" />
+        {/* <img src={pictureSrc} className="rounded-3xl justify-self-end h-[200px]" /> */}
+        <UserImage pictureSrc={pictureSrc} />
         <div style={{ gridColumn: "2 /  -2" }} className="flex flex-col justify-end font-semibold">
           <p className="text-2xl">{metadata.name}</p>
           <p>{metadata.email}</p>

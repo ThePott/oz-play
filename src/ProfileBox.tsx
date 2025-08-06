@@ -12,6 +12,16 @@ const getImageSrc = (user: any) => {
   return pictureSrc
 }
 
+const UserImage = ({ user }: { user: any }) => {
+  const pictureSrc = getImageSrc(user)
+  return (
+    <>
+      {pictureSrc && <img src={getImageSrc(user)} />}
+      {!pictureSrc && <FaceIcon className="text-white" fontSize='large' />}
+    </>
+  )
+}
+
 const ProfileBox = () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -58,7 +68,8 @@ const ProfileBox = () => {
   return (
     <>
       <Box className={profileStyle} onClick={handleClick}>
-        {isLoggedIn && <img src={getImageSrc(user)} />}
+        {isLoggedIn && <UserImage user={user} />}
+        {/* {isLoggedIn && <img src={getImageSrc(user)} />} */}
         {isWaitingLoginResponse && <CircularProgress />}
       </Box>
 

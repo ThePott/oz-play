@@ -10,7 +10,6 @@ const Layout = () => {
   const initializeIsDark = useMovieStore((state) => state.initializeIsDark)
   useEffect(() => { initializeIsDark() }, [])
   
-  
   const theme = createTheme({
     palette: {
       mode: isDark ? 'dark' : "light"

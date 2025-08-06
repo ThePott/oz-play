@@ -160,15 +160,22 @@ export const useBottomAdd = () => {
     return { bottomRef }
 }
 
+const getDetailMany = async (favoriteIdArray: string[], addToFavoriteDetailDict: (movieDetailData: any) => void, setIsLoading: (isLoading: boolean) => void) => {
+    setIsLoading(true)
+    favoriteIdArray.forEach(async (movieId) => {
+        await getDetail(Number(movieId), addToFavoriteDetailDict)
+    })
+    setIsLoading(false)
+}
+
 export const useFavoriteMovieDict = () => {
     const favoriteIdDict = useMovieStore((state) => state.favoriteIdDict)
     const addToFavoriteDetailDict = useMovieStore((state) => state.addToFavoriteDetailDict)
     const favoriteIdArray = Object.keys(favoriteIdDict)
+    const setIsLoading = useMovieStore((state) => state.setIsLoading)
     console.log("---- favorite id array:", favoriteIdArray)
 
     useEffect(() => {
-        favoriteIdArray.forEach((movieId) => {
-            getDetail(Number(movieId), addToFavoriteDetailDict)
-        })
+        getDetailMany(favoriteIdArray, addToFavoriteDetailDict, setIsLoading)
     }, [favoriteIdDict])
 }
